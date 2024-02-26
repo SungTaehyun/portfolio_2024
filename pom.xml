@@ -23,6 +23,13 @@
 			<artifactId>commons-codec</artifactId>
 			<version>1.16.1</version>
 		</dependency>
+		
+		  <!-- https://mvnrepository.com/artifact/org.mariadb.jdbc/mariadb-java-client -->
+      <dependency>
+          <groupId>org.mariadb.jdbc</groupId>
+          <artifactId>mariadb-java-client</artifactId>
+          <version>3.3.3</version>
+      </dependency>
 
 		<!-- thumbnail용 mvn -->
 		<!-- https://mvnrepository.com/artifact/org.imgscalr/imgscalr-lib -->

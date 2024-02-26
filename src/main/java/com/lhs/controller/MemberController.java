@@ -46,9 +46,12 @@ public class MemberController {
 	public HashMap<String, Object> checkId(@RequestParam HashMap<String, String> params){
 		int cnt = 0;
 		HashMap<String, Object> map = new HashMap<String, Object>();
+		cnt = mService.checkId(params);
+		System.out.println("중복 id 여부 "+ cnt);
 		map.put("cnt", cnt);
 		map.put("msg", cnt==1? "중복된 ID 입니다.":"");
-
+		
+		
 		return map;
 	}
 
@@ -57,6 +60,7 @@ public class MemberController {
 	public HashMap<String, Object> join(@RequestParam HashMap<String, String> params){		
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		int cnt = 0;
+		cnt= mService.join(params);
 		map.put("cnt", cnt);
 		map.put("msg", cnt==1?"회원 가입 완료!":"회원 가입 실패!");
 		map.put("nextPage", cnt==1?"/member/goLoginPage.do" : "/member/goRegisterPage.do");
