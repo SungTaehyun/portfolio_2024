@@ -16,24 +16,29 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 
 	</select>
 
-	<select id="getMemberById" parameterType="HashMap"
-		resultType="HashMap">
-
-	</select>
-
 	<select id="makeCipherText" parameterType="map"
 		resultType="String">
 		SELECT SHA2(MD5(#{memberPw}), 256) AS pw
 	</select>
 
-	<select id="checkId" parameterType="map" resultType="int">
+	<!-- 칼럼명 추가 -->
+	<!-- public Member getMemberById(HashMap<String, String> params); -->
+	<select id="getMemberById" parameterType="HashMap"
+		resultType="Member">
+		SELECT member_id, member_pw,member_nick
+		FROM S_SungTaehyun.member
+		where member_id = #{memberId};
+	</select>
+
+
+	<select id="checkId" parameterType="HashMap" resultType="int">
 		SELECT
 		COUNT(1)
 		FROM S_SungTaehyun.member
 		WHERE member_id = #{memberId}
 	</select>
 
-	<insert id="join" parameterType="map">
+	<insert id="join" parameterType="HashMap">
 		INSERT INTO
 		S_SungTaehyun.member(type_seq, member_id, member_pw,
 		member_name,
@@ -47,8 +52,8 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		DATE_FORMAT(now(), '%Y%m%d%H%i%s'),
 		DATE_FORMAT(now(), '%Y%m%d%H%i%s'),
 		NULL);
-
 	</insert>
+
 	<delete id="delMember" parameterType="HashMap">
 
 	</delete>

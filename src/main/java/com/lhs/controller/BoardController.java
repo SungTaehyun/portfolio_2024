@@ -23,11 +23,17 @@ public class BoardController {
 	@Autowired AttFileService attFileService;
 	@Autowired FileUtil fileUtil;
 
-	private String typeSeq = "2";
+	private String typeSeq = "1";
 
 	@RequestMapping("/board/list.do")
 	public ModelAndView goLogin(@RequestParam HashMap<String, String> params){
-		return null;
+		ModelAndView mv = new ModelAndView();
+		if(!params.containsKey("typeSeq")) {
+			params.put(typeSeq, this.typeSeq);
+		}
+		mv.setViewName("board/list");
+		
+		return mv;
 	}
 
 	@RequestMapping("/test.do")

@@ -20,23 +20,26 @@ import com.lhs.util.FileUtil;
 
 @Controller
 public class NoticeController {
-
+	//// BoardService, AttFileService, FileUtil을 주입받음
 	@Autowired BoardService bService;
 	@Autowired AttFileService attFileService;
 	@Autowired FileUtil fileUtil;
-
+	// 기본적으로 사용할 typeSeq 설정
 	private String typeSeq = "1";
 
-	@RequestMapping("/notice/list.do")
-	public ModelAndView goLogin(@RequestParam HashMap<String, String> params){
-		ModelAndView mv = new ModelAndView();
-		if(!params.containsKey("typeSeq")) {
-			params.put("typeSeq", this.typeSeq);
-		}
-		mv.setViewName("notice/list");
+	// /notice/list.do 요청을 처리하는 메서드
+		@RequestMapping("/notice/list.do")
+		public ModelAndView goLogin(@RequestParam HashMap<String, String> params){//params에는 폼에 입력한 데이터가 들어 있음. @RequestParam 어노테이션을 사용하여 이러한 파라미터를 받을 수 있다.
+			ModelAndView mv = new ModelAndView(); //ModelAndView 객체를 생성
+	        // 요청 파라미터에 "typeSeq"가 없으면 기본값으로 설정
+			if(!params.containsKey("typeSeq")) {// 클라이언트가 요청 시 "typeSeq" 값을 지정하지 않았다면,
+				params.put("typeSeq", this.typeSeq);//기본값인 typeSeq 변수에 설정된 값을 사용한다.
+			}
+	        // 생성한 ModelAndView 객체의 뷰 이름을 "notice/list"로 설정(공지사항 목록 페이지를 나타내는 이름)
+			mv.setViewName("notice/list");
 
-		return mv;
-	}
+			return mv;//설정한 ModelAndView 객체를 반환
+		}
 
 
 	//글쓰기 페이지로 	

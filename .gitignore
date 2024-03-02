@@ -9,7 +9,7 @@
 *.log
 
 # Spring application context datasource configuration file
-applicationcontext-datasource.xml
+config.properties
 
 # BlueJ files
 *.ctxt
