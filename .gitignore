@@ -5,11 +5,11 @@
 # Compiled class file
 *.class
 
+# ignore properties file
+config.properties
+
 # Log file
 *.log
-
-# Spring application context datasource configuration file
-config.properties
 
 # BlueJ files
 *.ctxt

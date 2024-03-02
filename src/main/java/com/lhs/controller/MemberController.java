@@ -43,10 +43,9 @@ public class MemberController {
 
 	@RequestMapping("/member/checkId.do")
 	@ResponseBody
-	public HashMap<String, Object> checkId(@RequestParam HashMap<String, String> params) {// hashmap은 키와 값으로 이루어졌고 여기서
+	public HashMap<String, Object> checkId(@RequestParam HashMap<String, String> params) {// HashMap은 키와 값으로 이루어졌고 여기서
 																							// 키는 문자열(String)이고 값은 임의의
 																							// 객체(Object)이다.
-
 		System.out.println("회원가입시 중복 ID확인 : " + params.get("memberId"));
 
 		// memberId가 중복이면 1이상, memberId가 중복이 아니면 0를 반환
