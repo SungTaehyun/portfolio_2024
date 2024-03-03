@@ -12,12 +12,20 @@ public interface BoardService {
 	
 	public int getTotalArticleCnt(HashMap<String, String> params);
 	
+	/**
+	 * 글 쓰기 write 
+	 * @param params
+	 * @return
+	 */
 	public int write(HashMap<String, Object> params, List<MultipartFile> mFiles);
-
+	
+	
 	/**
 	 * 글 조회  
 	 */
 	public HashMap<String, Object> read(HashMap<String, Object> params);
+	
+	
 	/**
 	 * 글 수정 update 
 	 * @param params
@@ -25,12 +33,14 @@ public interface BoardService {
 	 */
 	public int update(HashMap<String, Object> params, List<MultipartFile> mFiles);
 	
+	
 	/**첨부파일 삭제(수정 페이지에서 삭제버튼 눌러 삭제하는 경우임) 
 	 * 
 	 * @param params
 	 * @return
 	 */
 	public boolean deleteAttFile(HashMap<String, Object> params);
+	
 	
 	/** 글 삭제 delete 
 	 * @param params

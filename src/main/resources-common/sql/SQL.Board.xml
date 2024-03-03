@@ -7,7 +7,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	<!-- resultType은 반드시 있어야 함 -->
 	<select id="list" parameterType="HashMap" resultType="HashMap">
 			SELECT member_nick, title, has_file, hits, create_dtm, board_seq
-			FROM S_SungTaehyun.board;
+			FROM S_SungTaehyun.board limit 10;
 	</select>
 
 	<select id="getTotalArticleCnt" parameterType="HashMap"
@@ -15,10 +15,15 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 
 	</select>
 
-	<insert id="write" parameterType="HashMap"
-		useGeneratedKeys="true" keyProperty="boardSeq">
 
+	<insert id="write" parameterType="HashMap" useGeneratedKeys="true" keyProperty="boardSeq">
+	<!-- boardSeq로 마이바티스가 parmas값에 넣어준다. -->
+	INSERT INTO S_SungTaehyun.board
+	(type_seq, member_id, member_nick, title, content, has_file, hits, create_dtm, update_dtm)
+	VALUES(#{typeSeq}, #{memberId}, #{memberNick}, #{title}, #{content}, 
+	NULL, 0, DATE_FORMAT(now(), '%Y%m%d%H%i%s'), DATE_FORMAT(now(), '%Y%m%d%H%i%s'));
 	</insert>
+
 
 	<select id="read" parameterType="HashMap" resultType="HashMap">
 	</select>

@@ -38,14 +38,13 @@ public class MemberServiceImpl implements MemberService {
 	 * 회원가입 : register.jsp memberPw ---> member_pw
 	 */
 	@Override
-	public int join(HashMap<String, String> params) {
-
-// *비밀번호 암호화
+	public int join(HashMap<String, String> params) { //HashMap<String, String>은 맵 자료구조를 선언하고, params는 이 맵을 담아서 메서드에 전달하는 역할
+		// *비밀번호 암호화
 		Sha512Encoder encoder = Sha512Encoder.getInstance(); // 1. SHA-512 암호화를 위한 인스턴스를 얻는다
 		System.out.println("encoder : " + encoder); // com.feb.test.util.Sha512Encoder@7c3a98fc
 
 		String passwd = params.get("memberPw"); // 2. 브라우저에서 입력한 비밀번호
-		System.out.println("memberPw : " + params.get("memberPw")); // 123
+		System.out.println("memberPw : " + params.get("memberPw")); //dig404
 
 		String encodeTxt = encoder.getSecurePassword(passwd); // 3. 비밀번호 암호화
 		System.out.println("memberPw : " + encodeTxt); // 3c9909afec25354d551dae21590...
@@ -67,8 +66,7 @@ public class MemberServiceImpl implements MemberService {
 
 	// 로그인시 ID와 비밀번호가 일치하는지 확인
 	@Override
-	public boolean login(HashMap<String, String> params, HttpSession session)
-			throws UserNotFoundException, PasswordMissMatchException {
+	public boolean login(HashMap<String, String> params, HttpSession session) throws UserNotFoundException, PasswordMissMatchException {
 		// 사용자가 입력한 정보와 일치하는 유저 찾기
 
 		// 1. id비교

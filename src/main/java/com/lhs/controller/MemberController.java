@@ -62,8 +62,7 @@ public class MemberController {
 	@RequestMapping("/member/join.do")
 	@ResponseBody
 	public HashMap<String, Object> join(@RequestParam HashMap<String, String> params) {
-		HashMap<String, Object> map = new HashMap<String, Object>(); // 객체를 생성하여 클라이어느에게 반환할 결과를 담을 떄 사용. 키는 문자열이고 값은
-																		// 객체이다.
+		HashMap<String, Object> map = new HashMap<String, Object>(); // 객체를 생성하여 클라이어느에게 반환할 결과를 담을 떄 사용.
 
 		System.out.println("memberId : " + params.get("memberId"));
 		System.out.println("memberName : " + params.get("memberName"));
@@ -98,11 +97,12 @@ public class MemberController {
 //	}
 
 	/*
-	 * 로그인 : login.jsp memberId ---> member_id memberPw ---> member_pw
+	 * 로그인 : login.jsp : memberId ---> member_id , memberPw ---> member_pw
 	 */
 	@RequestMapping("/member/login.do")
 	@ResponseBody
 	public HashMap<String, Object> login(@RequestParam HashMap<String, String> params, HttpSession session) {
+		// HttpSession session: 세션 객체를 전달
 		HashMap<String, Object> map = new HashMap<String, Object>();// 객체 생성
 		try {
 			boolean result = mService.login(params, session);// mService

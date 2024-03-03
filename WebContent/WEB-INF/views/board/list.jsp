@@ -20,7 +20,7 @@
 	System.out.println(conn + "<-- conn");
 
 	// 쿼리
-	PreparedStatement stmt = conn.prepareStatement("select * from S_SungTaehyun.board");
+	PreparedStatement stmt = conn.prepareStatement("select * from S_SungTaehyun.board limit 10");
 	System.out.println(stmt + "<-- stmt");
 
 	// 쿼리 실행

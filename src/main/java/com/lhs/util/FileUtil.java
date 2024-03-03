@@ -37,7 +37,7 @@ public class FileUtil {
 		if(!destDir.exists()) {	//존재하지 않으면 
 			destDir.mkdirs();//만들라 
 		}
-		// 2. 파일 지정 [저장 디렉토리 (경로담긴), 저장할 파일명] 
+		// 2. 파일 지정 [저장 디렉토리 (경로담긴), 저장할 파일명] - 위치와 파일명 
 		File destFile = new File(destDir, fakename);// (저장할 폴더,저장할 파일명) 
 		
 		//FileCopyUtils.copy([file data], target(디렉토리, 파일명);

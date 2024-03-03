@@ -6,6 +6,11 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	<mapper namespace="com.lhs.dao.AttFileDao"> 
 		
 	<insert id ="addAttFile" parameterType="HashMap" >
+	INSERT INTO S_SungTaehyun.board_attach (type_seq, board_seq, file_name, fake_filename, file_size, file_type, save_loc, create_dtm)
+	 VALUES(#{typeSeq}, #{boardSeq},
+	  #{fileName}, #{fakeFilename},
+	   #{fileSize}, #{fileType},
+	    #{saveLoc}, DATE_FORMAT(now(), '%Y%m%d%H%i%s'));
 	
 	</insert>
 	

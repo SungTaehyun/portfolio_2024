@@ -21,6 +21,7 @@
 	</context:component-scan>
 	
 	<!-- File Upload -->
+	<!-- CommonsMultipartResolver는 스프링에서 파일 받아올 때 필수 적인 요소임. -->
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"> 
 		<property name="maxUploadSize" value="50000000" /> 
 	</bean>
