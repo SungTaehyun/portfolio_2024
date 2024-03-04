@@ -1,5 +1,6 @@
 package com.lhs.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletResponse;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.lhs.dto.BoardDto;
 import com.lhs.service.AttFileService;
 import com.lhs.service.BoardService;
 import com.lhs.util.FileUtil;
@@ -28,12 +30,22 @@ public class BoardController {
 
 	@RequestMapping("/board/list.do")
 	public ModelAndView goLogin(@RequestParam HashMap<String, String> params){
+		System.out.println("tgregtrgetrgec:"+params);
 		ModelAndView mv = new ModelAndView();
 		if(!params.containsKey("typeSeq")) {
-			params.put(typeSeq, this.typeSeq);
+			params.put("typeSeq", this.typeSeq);
+			System.out.println("tgregtrgetrgec:"+params);
 		}
+		ArrayList<HashMap<String, Object>> key = bService.list(params);
 		mv.setViewName("board/list");
-		
+		mv.addObject("key", key);
+		for (HashMap<String, Object> map : key) {
+		    Object boardSeq = map.get("boardSeq");
+		    System.out.println("boardSeq: " + boardSeq);
+		    boardSeq = map.get("board_seq");
+		    System.out.println("boardSeq: " + boardSeq);
+		}
+	
 		return mv;
 	}
 
@@ -99,12 +111,32 @@ public class BoardController {
 // /board/download.do?fileIdx=1
 	}	
 	
-
+//// 읽기
+//	@RequestMapping("/board/read.do")
+//	public ModelAndView read(BoardDto boardDto) {
+//	    // HTTP 요청 파라미터들이 자동으로 BoardDto 객체에 바인딩됨
+//	    System.out.println("params핑퐁 : " + boardDto); // boardDto 객체에 어떤 값이 담겨 있는지를 콘솔에 출력
+//
+//	    // typeSeq 속성이 null인지 확인하고, null이면 기본값(this.typeSeq)으로 설정
+//	    if(boardDto.getTypeSeq() == null) {
+//	        boardDto.setTypeSeq(this.typeSeq); // 클래스 내에 선언된 다른 변수인 this.typeSeq를 사용하여 기본값 설정
+//	    }
+//
+//	    // 새로운 ModelAndView 객체 생성(요청을 처리하고 그 결과를 보여주기 위한 뷰를 결정하기 위해서 객체생성함)
+//	    ModelAndView mv = new ModelAndView();
+//	    // 뷰 이름을 "/board/read"로 설정
+//	    mv.setViewName("/board/read");
+//
+//	    // 설정된 ModelAndView 객체 반환
+//	    return mv;
+//	}
+	
 	@RequestMapping("/board/read.do")
 	public ModelAndView read(@RequestParam HashMap<String, Object> params) {
 		if(!params.containsKey("typeSeq")) {
 			params.put("typeSeq", this.typeSeq);
 		}
+		
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("/board/read");
 		return mv;

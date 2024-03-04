@@ -3,6 +3,8 @@ package com.lhs.dao;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.lhs.dto.BoardDto;
+
 public interface BoardDao {
 	/**
 	 * 모든 리스트 select  
@@ -26,11 +28,12 @@ public interface BoardDao {
 	 */
 	public int write(HashMap<String, Object> params);
 	
+	
 	/**
 	 * 글 조회  
 	 */
 	public HashMap<String, Object> read(HashMap<String, Object> params);
-	
+//	public BoardDto read(HashMap<String, Object> params);
 	/**
 	 * 조회수 증가.
 	 * @param params
@@ -58,6 +61,8 @@ public interface BoardDao {
 	 * @return
 	 */
 	public int delete(HashMap<String, Object> params);
+
+	
 	
 	
 }

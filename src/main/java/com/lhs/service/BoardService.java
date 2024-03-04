@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.lhs.dto.BoardDto;
+
 public interface BoardService {
 
 	public ArrayList<HashMap<String, Object>> list(HashMap<String, String> params);
@@ -24,7 +26,7 @@ public interface BoardService {
 	 * 글 조회  
 	 */
 	public HashMap<String, Object> read(HashMap<String, Object> params);
-	
+//	public BoardDto read(BoardDto boardDto);
 	
 	/**
 	 * 글 수정 update 

@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.lhs.dao.AttFileDao;
 import com.lhs.dao.BoardDao;
+import com.lhs.dto.BoardDto;
 import com.lhs.service.BoardService;
 import com.lhs.util.FileUtil;
 
@@ -31,7 +32,11 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public ArrayList<HashMap<String, Object>> list(HashMap<String, String> params) {
-		return bDao.list(params);
+		System.out.println("params@@@:" +params);
+		ArrayList<HashMap<String, Object>> result = bDao.list(params);
+		System.out.println("sdfasdfasdf : "+result);
+		
+		return result;
 	}
 
 	@Override
@@ -103,6 +108,7 @@ public class BoardServiceImpl implements BoardService {
 	// 글 조회
 	@Override
 	public HashMap<String, Object> read(HashMap<String, Object> params) {
+//	public BoardDto read(BoardDto boardDto) {
 
 		return bDao.read(params);
 	}
