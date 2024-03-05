@@ -26,4 +26,5 @@ public class BoardDto {
 	String hits;
 	String createDtm;
 	String updateDtm;
+	String currentPage;
 }

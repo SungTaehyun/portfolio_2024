@@ -4,16 +4,28 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
 
 <mapper namespace="com.lhs.dao.BoardDao">
-	<!-- resultType은 반드시 있어야 함 -->
 	<select id="list" parameterType="HashMap" resultType="HashMap">
-	SELECT board_seq, type_seq, member_id, member_nick, title, content, has_file, hits, create_dtm, update_dtm 
-	FROM S_SungTaehyun.board where type_seq=2 limit 10;
-		<!-- SELECT
-		member_nick, title, has_file, hits, create_dtm, board_seq
-		FROM
-		S_SungTaehyun.board limit 10
-		WHERE  type_seq=2; -->
-	</select>
+    SELECT *,
+           @rownum := @rownum + 1 AS row_number
+    FROM (SELECT board_seq,
+                 type_seq,
+                 member_id,
+                 member_nick,
+                 title,
+                 content,
+                 has_file,
+                 hits,
+                 create_dtm,
+                 update_dtm
+          FROM S_SungTaehyun.board
+          WHERE type_seq = 2
+          ORDER BY RAND()
+          LIMIT 10
+          ) AS subquery,
+          (SELECT @rownum := 0) AS r
+</select>
+
+
 
 	<select id="getTotalArticleCnt" parameterType="HashMap"
 		resultType="int">
@@ -35,12 +47,13 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	
 <!-- resultType에 BoardDto를 넣는 것과 com.lhs.dto.BoardDto를 넣는 것의 차이는?  -->
 <!-- 일반적으로는 패키지 경로를 포함한 완전한 클래스 이름을 사용하는 것이 더 안전하며, 클래스 이름 충돌을 방지할 수 있다, @Alias("board")의 board로 넣어도 된다. -->
-	<select id="read" parameterType="HashMap" resultType="com.lhs.dto.BoardDto">
+	<select id="read" parameterType="HashMap" resultType="HashMap">
 		SELECT
 		type_seq, member_id, member_nick, title, content, has_file,
 		hits, create_dtm, update_dtm
 		FROM S_SungTaehyun.board
 		where board_seq = #{boardSeq};
+		
 	</select>
 
 	<update id="updateHits" parameterType="HashMap">
