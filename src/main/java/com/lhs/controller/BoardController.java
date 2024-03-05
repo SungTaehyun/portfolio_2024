@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.lhs.dto.BoardDto;
 import com.lhs.service.AttFileService;
 import com.lhs.service.BoardService;
 import com.lhs.util.FileUtil;
@@ -49,13 +48,13 @@ public class BoardController {
 		mv.setViewName("board/list"); // ModelAndView 객체인 mv의 뷰 이름을 "board/list"로 설정합니다.
 
 		mv.addObject("key", key); // ModelAndView 객체인 mv에 모델 데이터를 추가합니다. "key"는 모델 데이터의 이름이 되고, key 변수에 할당된
-									// ArrayList<HashMap<String, Object>> 객체가 모델 데이터가 됩니다.
+	//key는 jsp에 전달되어 item으로 이용된다.								// ArrayList<HashMap<String, Object>> 객체가 모델 데이터가 됩니다.
 		// ArrayList<HashMap<String, Object>> 객체인 key에는 게시판 목록 페이지에 표시될 게시글 데이터가 포함된다.
 		for (HashMap<String, Object> map : key) { // 게시글 목록(key)을 순회하면서,
 			Object boardSeq = map.get("boardSeq"); // 각 게시글의 일련 번호(boardSeq)를 가져옴
-			System.out.println("boardSeq: " + boardSeq); // 일련 번호를 출력
-			boardSeq = map.get("board_seq"); // "board_seq"라는 키로도 일련 번호를 가져오려고 하지만, 이 코드는 의미가 없다.
-			System.out.println("boardSeq: " + boardSeq); // 따라서 동일한 값이 출력
+//			System.out.println("boardSeq: " + boardSeq); // 일련 번호를 출력
+//			boardSeq = map.get("board_seq"); // "board_seq"라는 키로도 일련 번호를 가져오려고 하지만, 이 코드는 의미가 없다.
+//			System.out.println("boardSeq: " + boardSeq); // 따라서 동일한 값이 출력
 		}
 
 		return mv; // ModelAndView 객체를 반환하여 처리 결과를 클라이언트에게 전달합니다.
@@ -168,12 +167,25 @@ public class BoardController {
 			System.out.println("uuuuuuuuuuuu:" + params);
 		}
 
-		HashMap<String, Object> member = bService.read(params);// bService의 list 메서드를 호출하여 params를 전달하고, 그 결과를 member
-																// 변수에 할당
+		HashMap<String, Object> boardread = bService.read(params); // bService의 list 메서드를 호출하여 params를 전달하고, 그 결과를 member 변수에 할당
+		System.out.println("boardread11111:"+boardread);
+		
 		ModelAndView mv = new ModelAndView();
+		mv.addObject("boardread",boardread);//"boardread"라는 키에 boardread값을 담는다.
+		mv.addObject("boardSeq",params.get("boardSeq"));
 		mv.setViewName("/board/read");
 		return mv;
 	}
+	
+//	System.out.println("READ PARAMS~~~~~~~~~~~~~~~~~~~~~~       " + params);
+//	ModelAndView mv = new ModelAndView();
+//	HashMap<String, Object> memberList = bService.read(params);
+//	System.out.println("memberLISt                        " + memberList);
+//	mv.addObject("memberL", memberList);
+//	mv.addObject("boardS", params.get("boardSeq"));
+//	mv.setViewName("/board/read");
+//	return mv;
+//}	
 
 	// 수정 페이지로
 	@RequestMapping("/board/goToUpdate.do")
@@ -203,13 +215,20 @@ public class BoardController {
 	@RequestMapping("/board/delete.do")
 	@ResponseBody
 	public HashMap<String, Object> delete(@RequestParam HashMap<String, Object> params, HttpSession session) {
-
+		System.out.println("deleteasdsdasd: " + params);
 		if (!params.containsKey("typeSeq")) {
 			params.put("typeSeq", this.typeSeq);
 		}
+		System.out.println("delete222222222222222:" + params);
+		
+		int boardInfo = bService.delete(params);//boardInfo에 delete메서드에서의 params값을 들고와서 담는다.
+		System.out.println("boardinfo1111111111111:"+boardInfo);
+		
+		
 		return null; // 비동기: map return
 	}
-
+	
+	
 	@RequestMapping("/board/deleteAttFile.do")
 	@ResponseBody
 	public HashMap<String, Object> deleteAttFile(@RequestParam HashMap<String, Object> params) {

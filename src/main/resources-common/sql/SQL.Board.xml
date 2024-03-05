@@ -5,25 +5,21 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="com.lhs.dao.BoardDao">
 	<select id="list" parameterType="HashMap" resultType="HashMap">
-    SELECT *,
-           @rownum := @rownum + 1 AS row_number
-    FROM (SELECT board_seq,
-                 type_seq,
-                 member_id,
-                 member_nick,
-                 title,
-                 content,
-                 has_file,
-                 hits,
-                 create_dtm,
-                 update_dtm
-          FROM S_SungTaehyun.board
-          WHERE type_seq = 2
-          ORDER BY RAND()
-          LIMIT 10
-          ) AS subquery,
-          (SELECT @rownum := 0) AS r
+    SELECT board_seq,
+    type_seq,
+    member_id,
+    member_nick,
+    title,
+    content,
+    has_file,
+    hits,
+    create_dtm,
+    update_dtm
+    FROM S_SungTaehyun.board
+    WHERE type_seq = 2
+    LIMIT 10
 </select>
+
 
 
 
@@ -44,20 +40,27 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		NULL, 0, DATE_FORMAT(now(), '%Y%m%d%H%i%s'), DATE_FORMAT(now(),
 		'%Y%m%d%H%i%s'));
 	</insert>
-	
-<!-- resultType에 BoardDto를 넣는 것과 com.lhs.dto.BoardDto를 넣는 것의 차이는?  -->
-<!-- 일반적으로는 패키지 경로를 포함한 완전한 클래스 이름을 사용하는 것이 더 안전하며, 클래스 이름 충돌을 방지할 수 있다, @Alias("board")의 board로 넣어도 된다. -->
+
+	<!-- resultType에 BoardDto를 넣는 것과 com.lhs.dto.BoardDto를 넣는 것의 차이는? -->
+	<!-- 일반적으로는 패키지 경로를 포함한 완전한 클래스 이름을 사용하는 것이 더 안전하며, 클래스 이름 충돌을 방지할 수 있다, 
+		@Alias("board")의 board로 넣어도 된다. -->
 	<select id="read" parameterType="HashMap" resultType="HashMap">
 		SELECT
 		type_seq, member_id, member_nick, title, content, has_file,
-		hits, create_dtm, update_dtm
+		hits,
+		create_dtm, update_dtm
 		FROM S_SungTaehyun.board
-		where board_seq = #{boardSeq};
-		
+		where board_seq =
+		#{boardSeq};
+
 	</select>
 
 	<update id="updateHits" parameterType="HashMap">
+		UPDATE S_SungTaehyun.board
+		SET hits = hits + 1
+		WHERE board_seq = #{boardSeq};
 	</update>
+
 
 	<update id="update" parameterType="HashMap">
 
@@ -68,7 +71,9 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	</update>
 
 	<delete id="delete" parameterType="HashMap">
-
+		DELETE FROM
+		S_SungTaehyun.board
+		WHERE board_seq=#{boardSeq};
 	</delete>
 
 

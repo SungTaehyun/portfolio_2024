@@ -38,6 +38,12 @@ public class BoardServiceImpl implements BoardService {
 		
 		return result;
 	}
+// 위의 list 코드의 반환값을 BoardDto로 변경했을 시.
+//	@Override
+//	public ArrayList<BoardDto> list(HashMap<String, String> params) {
+//	    ArrayList<BoardDto> result = bDao.list(params);
+//	    return result;
+//	}
 
 	@Override
 	public int getTotalArticleCnt(HashMap<String, String> params) {
@@ -109,7 +115,7 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public HashMap<String, Object> read(HashMap<String, Object> params) {
 //	public BoardDto read(BoardDto boardDto) {
-
+		bDao.updateHits(params);
 		return bDao.read(params);
 	}
 
@@ -124,9 +130,11 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public int delete(HashMap<String, Object> params) {
-		if (params.get("hasFile").equals("Y")) { // 첨부파일 있으면
-			// 파일 처리
-		}
+		System.out.println("deletezzzzzzzzzzzzzzz:"+params);//{boardSeq=2446, typeSeq=2}
+//		if (params.get("hasFile").equals("Y")) { // 첨부파일 있으면
+//			
+//			// 파일 처리 
+//		}
 		return bDao.delete(params);
 	}
 

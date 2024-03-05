@@ -56,7 +56,7 @@ public interface BoardDao {
 	public int updateHasFileToZero(HashMap<String, Object> params);
 
 	 
-	/** 글 삭제 delete 
+	/** 글 삭제 delete
 	 * @param params
 	 * @return
 	 */
