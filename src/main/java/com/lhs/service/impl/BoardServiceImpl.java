@@ -31,13 +31,10 @@ public class BoardServiceImpl implements BoardService {
 	private String saveLocation;
 
 	@Override
-	public ArrayList<HashMap<String, Object>> list(HashMap<String, String> params) {
-		System.out.println("params@@@:" +params);
-		ArrayList<HashMap<String, Object>> result = bDao.list(params);
-		System.out.println("sdfasdfasdf : "+result);
-		
-		return result;
+	public BoardDto list(BoardDto boardDto) {
+	    return bDao.list(boardDto);
 	}
+
 // 위의 list 코드의 반환값을 BoardDto로 변경했을 시.
 //	@Override
 //	public ArrayList<BoardDto> list(HashMap<String, String> params) {
@@ -113,30 +110,34 @@ public class BoardServiceImpl implements BoardService {
 	
 	// 글 조회
 	@Override
-	public HashMap<String, Object> read(HashMap<String, Object> params) {
-//	public BoardDto read(BoardDto boardDto) {
-		bDao.updateHits(params);
-		return bDao.read(params);
+	public BoardDto read(BoardDto boardDto) {
+	    bDao.updateHits(boardDto);
+	    return bDao.read(boardDto);
 	}
 
 	@Override
-	public int update(HashMap<String, Object> params, List<MultipartFile> mFiles) {
-		if (params.get("hasFile").equals("Y")) { // 첨부파일 존재시
-			// 파일 처리
-		}
+	public int update(BoardDto boardDto, List<MultipartFile> mFiles) {
+		System.out.println("업데이트 확인            :" +  boardDto);
+//		if (params.get("hasFile").equals("Y")) { // 첨부파일 존재시
+//			// 파일 처리
+//		}
 		// 글 수정 dao
-		return bDao.update(params);
+		return bDao.update(boardDto);
 	}
 
 	@Override
 	public int delete(HashMap<String, Object> params) {
-		System.out.println("deletezzzzzzzzzzzzzzz:"+params);//{boardSeq=2446, typeSeq=2}
-//		if (params.get("hasFile").equals("Y")) { // 첨부파일 있으면
-//			
-//			// 파일 처리 
-//		}
-		return bDao.delete(params);
+	    System.out.println("deletezzzzzzzzzzzzzzz:" + params); // {boardSeq=12878, typeSeq=2}
+	    Object hasFileValue = params.get("hasFile"); // "hasFile" 키에 해당하는 값을 가져옴
+	    
+	    // "hasFile" 키에 해당하는 값이 null이 아니고 "Y"인 경우에만 실행
+	    if (hasFileValue != null && hasFileValue.equals("Y")) { //hasFile 키가 매개변수에 존재하는 경우
+	        int result = bDao.deleteFile(params);    // 파일 처리 
+	        System.out.println("result11111111111111 : " + result);
+	    }
+	    return bDao.delete(params);
 	}
+
 
 	@Override
 	public boolean deleteAttFile(HashMap<String, Object> params) {

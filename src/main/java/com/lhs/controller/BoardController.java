@@ -8,12 +8,14 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.lhs.dto.BoardDto;
 import com.lhs.service.AttFileService;
 import com.lhs.service.BoardService;
 import com.lhs.util.FileUtil;
@@ -30,35 +32,26 @@ public class BoardController {
 
 	private String typeSeq = "2";
 
-	@RequestMapping("/board/list.do") // 이 메서드는 "/board/list.do" 경로로 들어오는 HTTP 요청을 처리
-	public ModelAndView goLogin(@RequestParam HashMap<String, String> params) { // HTTP 요청의 쿼리 파라미터들을 HashMap으로 받음
-		System.out.println("tgregtrgetrgec:" + params); // 전달된 파라미터들을 출력한다. // {}출력됨.
+	@RequestMapping("/board/list.do")
+	public ModelAndView goLogin(BoardDto boardDto) {
+	    if (boardDto.getTypeSeq() == null) {
+	        boardDto.setTypeSeq(this.typeSeq);
+	    }
 
-		ModelAndView mv = new ModelAndView(); // ModelAndView 객체를 생성
+	    BoardDto key = bService.list(boardDto);
 
-		if (!params.containsKey("typeSeq")) { // 만약 파라미터 중에 "typeSeq"라는 키가 없다면,
-			params.put("typeSeq", this.typeSeq); // 기본값으로 설정된 키인 typeSeq에 this.typeSeq넣고 파라미터에 수정(추가)한다.
-			System.out.println("11111111111111:" + params); // 변경된 파라미터들을 출력 //{typeSeq=2}출력됨
-		} // 위 코드는 boardDto.setTypeSeq(typeSeq);와 같은 역할을 한다??
+	    ModelAndView mv = new ModelAndView();
+	    mv.setViewName("board/list");
+	    mv.addObject("key", key);
 
-		ArrayList<HashMap<String, Object>> key = bService.list(params); // bService의 list 메서드를 호출하여 params를 전달하고, 그 결과를
-																		// key 변수에 할당합니다. 이 메서드는
-																		// ArrayList<HashMap<String, Object>> 타입의 객체를
-																		// 반환합니다.
-		mv.setViewName("board/list"); // ModelAndView 객체인 mv의 뷰 이름을 "board/list"로 설정합니다.
+	    // BoardDto 객체의 필드를 직접 접근하여 작업
+	    Object boardSeq = key.getBoardSeq();
+	    // 필요에 따라 다른 필드에 대해서도 접근할 수 있습니다.
 
-		mv.addObject("key", key); // ModelAndView 객체인 mv에 모델 데이터를 추가합니다. "key"는 모델 데이터의 이름이 되고, key 변수에 할당된
-	//key는 jsp에 전달되어 item으로 이용된다.								// ArrayList<HashMap<String, Object>> 객체가 모델 데이터가 됩니다.
-		// ArrayList<HashMap<String, Object>> 객체인 key에는 게시판 목록 페이지에 표시될 게시글 데이터가 포함된다.
-		for (HashMap<String, Object> map : key) { // 게시글 목록(key)을 순회하면서,
-			Object boardSeq = map.get("boardSeq"); // 각 게시글의 일련 번호(boardSeq)를 가져옴
-//			System.out.println("boardSeq: " + boardSeq); // 일련 번호를 출력
-//			boardSeq = map.get("board_seq"); // "board_seq"라는 키로도 일련 번호를 가져오려고 하지만, 이 코드는 의미가 없다.
-//			System.out.println("boardSeq: " + boardSeq); // 따라서 동일한 값이 출력
-		}
-
-		return mv; // ModelAndView 객체를 반환하여 처리 결과를 클라이언트에게 전달합니다.
+	    return mv;
 	}
+
+
 
 	@RequestMapping("/test.do")
 	public ModelAndView test() {
@@ -128,89 +121,76 @@ public class BoardController {
 // /board/download.do?fileIdx=1
 	}
 
-//// 읽기
-//	@RequestMapping("/board/read.do")
-//	public ModelAndView read(BoardDto boardDto) {
-//	    // HTTP 요청 파라미터들이 자동으로 BoardDto 객체에 바인딩됨
-//	    System.out.println("핑핑퐁 : " + boardDto); // boardDto 객체에 어떤 값이 담겨 있는지를 콘솔에 출력
-//
-//	    // typeSeq 속성이 null인지 확인하고, null이면 기본값(this.typeSeq)으로 설정
-//		// boardDto.setTypeSeq(typeSeq);
-//	    if(boardDto.getTypeSeq() == null) {
-//	        boardDto.setTypeSeq(this.typeSeq); // 클래스 내에 선언된 다른 변수인 this.typeSeq를 사용하여 기본값 설정
-//	    }
-//
-//	    // 새로운 ModelAndView 객체 생성(요청을 처리하고 그 결과를 보여주기 위한 뷰를 결정하기 위해서 객체생성함)
-//	    ModelAndView mv = new ModelAndView();
-//	    // 뷰 이름을 "/board/read"로 설정
-//	    mv.setViewName("/board/read");
-//
-//	    // 설정된 ModelAndView 객체 반환
-//	    return mv;
-//	}
-
-//	@RequestMapping("/board/read.do")
-//	public ModelAndView read(BoardDto boardDto) {
-//		boardDto.setTypeSeq(typeSeq);
-//
-//		ModelAndView mv = new ModelAndView();
-//		mv.setViewName("/board/read");
-//		return mv;
-//	}
 
 	@RequestMapping("/board/read.do")
-	public ModelAndView read(@RequestParam HashMap<String, Object> params) {
-		System.out.println("bobobobo:" + params);// 찍어보기
+	public ModelAndView read(@ModelAttribute("boardDto") BoardDto boardDto) {
+	    if (boardDto.getTypeSeq() == null) {
+	        boardDto.setTypeSeq(this.typeSeq);
+	    }
 
-		if (!params.containsKey("typeSeq")) {
-			params.put("typeSeq", this.typeSeq);
-			System.out.println("uuuuuuuuuuuu:" + params);
-		}
-
-		HashMap<String, Object> boardread = bService.read(params); // bService의 list 메서드를 호출하여 params를 전달하고, 그 결과를 member 변수에 할당
-		System.out.println("boardread11111:"+boardread);
-		
-		ModelAndView mv = new ModelAndView();
-		mv.addObject("boardread",boardread);//"boardread"라는 키에 boardread값을 담는다.
-		mv.addObject("boardSeq",params.get("boardSeq"));
-		mv.setViewName("/board/read");
-		return mv;
+	    BoardDto boardread = bService.read(boardDto);
+	    
+	    ModelAndView mv = new ModelAndView();
+	    mv.addObject("boardread", boardread);
+	    mv.addObject("boardSeq", boardDto.getBoardSeq());
+	    mv.setViewName("/board/read");
+	    return mv;
 	}
+
 	
-//	System.out.println("READ PARAMS~~~~~~~~~~~~~~~~~~~~~~       " + params);
-//	ModelAndView mv = new ModelAndView();
-//	HashMap<String, Object> memberList = bService.read(params);
-//	System.out.println("memberLISt                        " + memberList);
-//	mv.addObject("memberL", memberList);
-//	mv.addObject("boardS", params.get("boardSeq"));
-//	mv.setViewName("/board/read");
-//	return mv;
-//}	
 
-	// 수정 페이지로
 	@RequestMapping("/board/goToUpdate.do")
-	public ModelAndView goToUpdate(@RequestParam HashMap<String, Object> params, HttpSession session) {
-		ModelAndView mv = new ModelAndView();
+	public ModelAndView goToUpdate(BoardDto boardDto, HttpSession session) {
+	    ModelAndView mv = new ModelAndView();
 
-		if (!params.containsKey("typeSeq")) {
-			params.put("typeSeq", this.typeSeq);
-		}
+	    // typeSeq가 boardDto에 없을 경우, 기존의 typeseq 기본값을 넣는다.
+	    if (boardDto.getTypeSeq() == null) {
+	        boardDto.setTypeSeq(this.typeSeq);
+	    }
+	    
+	    // 게시글 정보 읽어오기(bService의 read메서드에서 params에 담아서 객체에 저장
+	    BoardDto listupdate = bService.read(boardDto);
+	    
+	    //ModelAndView 객체에 게시물 정보 추가
+	    mv.addObject("listupdate", listupdate);
+	    
+	    // 뷰 이름 설정(update.jsp로 이동하게 하기 위해)
+	    mv.setViewName("/board/update"); 
+	    
+	    //값이 들어오는지 객체 찍어보기
+	    System.out.println("리스트업데이트                 :" + listupdate);
 
-		return mv;
-
+	    return mv; 
 	}
 
 	@RequestMapping("/board/update.do")
 	@ResponseBody // !!!!!!!!!!!! 비동기 응답
-	public HashMap<String, Object> update(@RequestParam HashMap<String, Object> params,
-			MultipartHttpServletRequest mReq) {
-
-		if (!params.containsKey("typeSeq")) {
-			params.put("typeSeq", this.typeSeq);
-		}
-
-		return null;
+	public HashMap<String, Object> update(BoardDto boardDto, MultipartHttpServletRequest mReq) {
+	    // 게시물 정보 출력해보기
+	    System.out.println("게시물출력해보기 : " + boardDto.toString());
+	    
+	    // typeSeq가 없을 경우, 기본값 typeSeq를 사용한다.
+	    if (boardDto.getTypeSeq() == null) {
+	        boardDto.setTypeSeq(this.typeSeq);
+	    }
+	    
+	    // 게시물을 업데이트하는 메서드를 호출하기
+	    int cnt = bService.update(boardDto, mReq.getFiles(typeSeq));
+	    
+	    //업데이트 결과를 확인하기 위해 콘솔에 출력하기(만약 업데이트가 성공했다면 result 값은 1이 될 것)
+	    System.out.println("게시물 업데이트 결과값확인 : " + cnt);
+	    
+	    // 결과를 담은 HashMap 생성
+	    HashMap<String, Object> map = new HashMap<String, Object>();
+	    //1. 업데이트 결과 카운트. 성공했을 경우 1, 실패했을 경우 0
+	    map.put("cnt", cnt);
+	    //2. 업데이트 결과 메시지) 성공했을 경우 "게시물 업데이트 완료", 실패했을 경우 "게시물 업데이트 실패"가 출력
+	    map.put("msg", cnt==1?"게시물 업데이트 완료!!!":"게시물 업데이트 실패!!!");
+	    //3. 업데이트 성공 시, 다음 페이지 경로 
+	    map.put("nextPage", cnt==1?"/board/list.do":"/board/list.do");
+	    return map;
 	}
+
 
 	@RequestMapping("/board/delete.do")
 	@ResponseBody

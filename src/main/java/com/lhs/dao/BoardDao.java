@@ -11,7 +11,7 @@ public interface BoardDao {
 	 * @param typeSeq
 	 * @return
 	 */
-	public ArrayList<HashMap<String, Object>> list(HashMap<String, String> params);
+	public BoardDto list(BoardDto boardDto);
 	
 	/**
 	 * 총 글 수 
@@ -32,21 +32,21 @@ public interface BoardDao {
 	/**
 	 * 글 조회  
 	 */
-	public HashMap<String, Object> read(HashMap<String, Object> params);
+	public BoardDto read(BoardDto boardDto);
 //	public BoardDto read(HashMap<String, Object> params);
 	/**
 	 * 조회수 증가.
 	 * @param params
 	 * @return
 	 */
-	public int updateHits(HashMap<String, Object> params);
+	public int updateHits(BoardDto boardDto);
 	
 	/**
 	 * 글 수정 update 
 	 * @param params
 	 * @return
 	 */
-	public int update(HashMap<String, Object> params);
+	public int update(BoardDto boardDto);
 	
 	/**
 	 * 모든 첨부파일 삭제시 has_file = 0 으로 수정 
@@ -61,6 +61,10 @@ public interface BoardDao {
 	 * @return
 	 */
 	public int delete(HashMap<String, Object> params);
+	
+
+	public int deleteFile(HashMap<String, Object> params);
+
 
 	
 	

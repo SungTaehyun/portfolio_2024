@@ -10,7 +10,8 @@ import com.lhs.dto.BoardDto;
 
 public interface BoardService {
 
-	public ArrayList<HashMap<String, Object>> list(HashMap<String, String> params);
+	public BoardDto list(BoardDto boardDto);
+
 	
 	public int getTotalArticleCnt(HashMap<String, String> params);
 	
@@ -25,7 +26,7 @@ public interface BoardService {
 	/**
 	 * 글 조회  
 	 */
-	public HashMap<String, Object> read(HashMap<String, Object> params);
+	public BoardDto read(BoardDto boardDto);
 //	public BoardDto read(BoardDto boardDto);
 	
 	/**
@@ -33,7 +34,8 @@ public interface BoardService {
 	 * @param params
 	 * @return
 	 */
-	public int update(HashMap<String, Object> params, List<MultipartFile> mFiles);
+	public int update(BoardDto boardDto, List<MultipartFile> mFiles);
+
 	
 	
 	/**첨부파일 삭제(수정 페이지에서 삭제버튼 눌러 삭제하는 경우임) 

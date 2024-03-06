@@ -35,16 +35,16 @@
 
 					<c:forEach var="board" items="${key}">
 						<tr>
-							<td align="center">${board.board_seq}</td>
+							<td align="center">${board.boardSeq}</td>
 							<td><span class="bold"> 
-							<a href="javascript:movePage('/board/read.do?boardSeq=${board.board_seq}&currentPage=currentPage')">
+							<a href="javascript:movePage('/board/read.do?boardSeq=${board.boardSeq}&currentPage=currentPage')">
 										${board.title} </a>
 							</span></td>
 							
-							<td>${board.member_nick}</td>
+							<td>${board.memberNick}</td>
 							<td>${board.hits}</td>
-							<td>${board.has_file }</td>
-							<td>${board.create_dtm}</td>
+							<td>${board.hasFile}</td>
+							<td>${board.createDtm}</td>
 						</tr>
 					</c:forEach>
 
@@ -69,7 +69,7 @@
 					<li class="page-item"><a class="page-link"
 						href="javascript:movePage('/board/list.do?page=6')">6</a></li>
 					<li class="page-item"><a class="page-link"
-						href="javascript:movePage('/board/list.do?page=99')">&raquo;</a></li>
+						href="javascript:movePage('/board/list.do?page=99')">&raquo;</a></li>S
 					</li>
 				</ul>
 			</div>

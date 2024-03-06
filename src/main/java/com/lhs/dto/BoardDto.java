@@ -17,14 +17,15 @@ import lombok.ToString;
 //@Alias(value = "board")
 public class BoardDto {
 
-	Integer boardSeq; // 번호
-	String typeSeq; // 카테고리 : 1공지사항, 2자유게시판
-	String memberId;
-	String memberNick;
-	String title;
-	String content;
-	String hits;
-	String createDtm;
-	String updateDtm;
-	String currentPage;
+    Integer boardSeq; // 번호
+    Integer typeSeq; // 카테고리 : 1공지사항, 2자유게시판
+    String memberId;
+    String memberNick;
+    String title;
+    String content;
+    String hits;
+    String createDtm;
+    String updateDtm;
+    String currentPage;
+    String hasFile;
 }

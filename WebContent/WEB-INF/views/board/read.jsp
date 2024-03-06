@@ -40,7 +40,7 @@ $(document).ready(function(){
 				<c:if test="${not empty boardread }">
 					<div class="clearfix mb-80">
 						<div class="border-bottom-1 border-top-1 p-12">
-							<span class="float-right fs-10 mt-10 text-muted">${boardread.create_dtm}</span>
+							<span class="float-right fs-10 mt-10 text-muted">${boardread.createDtm}</span>
 							<center>
 								<strong>${boardread.title}</strong>
 							</center>
@@ -53,10 +53,10 @@ $(document).ready(function(){
 											alt="avatar">
 										<!--  <i class="fa fa-user" style="font-size:30px"></i>-->
 									</div>
-									<small class="block">${boardread.member_nick }</small>
+									<small class="block">${boardread.memberNick}</small>
 									<hr />
 								</div>
-								<p>${boardread.content }</p>
+								<p>${boardread.content}</p>
 				</c:if>
 				<!-- 컬렉션 형태에서는 (list) items  -->
 							
@@ -92,9 +92,11 @@ $(document).ready(function(){
 							<div class="row">
 								<div class="col-md-12 text-right">
 							<c:if test="${ true }">				
-									<a href="javascript:movePage('/board/goToUpdate.do?boardSeq=PK1')">
+									<a href="javascript:movePage('/board/goToUpdate.do?boardSeq=${boardSeq}')">
 							       		 <button type="button" class="btn btn-primary"><i class="fa fa-pencil"></i> 수정</button>
 							   		</a>	
+							   		
+							   		
 									<a href="javascript:movePage('/board/delete.do?boardSeq=${boardSeq}')">
 									<button type="button" class="btn btn-primary"  id="btnDelete">
 											삭제

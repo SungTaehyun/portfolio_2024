@@ -69,8 +69,9 @@
 				return;		
 			}
 			$('#content').val(content);
-			
-			customAjax("<c:url value='/board/update.do' />", "/board/read.do?boardSeq=${boardInfo.board_seq}");
+			/* /board/update.do는 컨트롤러에 있는 URL이며, 클라이언트가 이 URL로 요청을 보내면 해당 컨트롤러의 메서드가 실행되고, 	
+			클라이언트가 /board/read.do?boardSeq=${listupdate.board_seq}는 요청을 보내는 역할이며, 요청이 성공하면 해당 요청의 결과를 받아오는 역할을 한다.*/
+			customAjax("<c:url value='/board/update.do' />", "/board/read.do?boardSeq=${listupdate.boardSeq}");
 		
 		}); //#btnUpdate end 		
 }); //ready End 
@@ -127,15 +128,15 @@ function deleteFile(fileIdx, boardSeq){
 					<!-- Useful Elements -->
 					<div class="card card-default">
 						<div class="card-heading card-heading-transparent">
-							<h2 class="card-title">공지 글 수정</h2>
+							<h2 class="card-title">게시글 수정</h2>
 						</div>
 						<div class="card-block">
 							<form name="updateForm" class="validate" method="post" enctype="multipart/form-data" data-success="Sent! Thank you!" data-toastr-position="top-right">
 								<input type="hidden" name="memberId" value="${ sessionScope.memberId }"/>
 								<input type="hidden" name="memberIdx" value="${ sessionScope.memberIdx }"/>
-								<input type="hidden" name="typeSeq" value="${ boardInfo.type_seq}"/>
-								<input type="hidden" name="boardSeq" value="${ boardInfo.board_seq }"/>
-								<input type="hidden" name="hasFile" value="${ boardInfo.has_file }"/>
+								<input type="hidden" name="typeSeq" value="${ listupdate.typeSeq}"/>
+								<input type="hidden" name="boardSeq" value="${ listupdate.boardSeq }"/>
+								<input type="hidden" name="hasFile" value="${ listupdate.hasFile }"/>
 									
 								<fieldset>
 									<!-- required [php action request] -->
@@ -143,12 +144,12 @@ function deleteFile(fileIdx, boardSeq){
 									<div class="row">
 										<div class="col-md-8 col-sm-8">
 											<label>제목</label>
-											<input type="text" name="title" id="title" value="타이틀" class="form-control required">
+											<input type="text" name="title" id="title"  value="${listupdate.title}" class="form-control required">
 										</div>
 										
 										<div class="col-md-4 col-sm-4">
 											<label>작성자</label>
-											<input type="text" id="memberNick" name="memberNick" value="작성자" 
+											<input type="text" id="memberNick" name="memberNick" value="${listupdate.memberNick}" 
 											class="form-control" readonly="readonly">
 										</div>
 										
@@ -158,7 +159,7 @@ function deleteFile(fileIdx, boardSeq){
 										<div class="col-md-12 col-sm-12">
 											<label>내용</label>
 											<textarea class="summernote form-control" data-height="200" data-lang="en-US" name="content" id="content" rows="4">
-												내용내용내용내용내용내용내용
+												${listupdate.content} 
 											</textarea>
 									
 										</div>
@@ -170,8 +171,9 @@ function deleteFile(fileIdx, boardSeq){
 												첨부파일
 											</label>
 
-											<!-- custom file upload -->												
-		<c:if test="${empty attFiles}"> <!-- 첨부파일없으면  -->
+											<!-- custom file upload -->		
+											<!-- 첨부파일없으면  -->										
+											<c:if test="${empty attFiles}"> 
 											<div class="fancy-file-upload fancy-file-primary">
 												<i class="fa fa-upload"></i>
 												<input type="file" class="form-control" name="attFiles" onchange="jQuery(this).next('input').val(this.value);" />
@@ -203,7 +205,7 @@ function deleteFile(fileIdx, boardSeq){
 													</button>
 												</div>					
 											</div>
-	</c:forEach>
+									</c:forEach>
 										</div>
 									</div>
 								</fieldset>
