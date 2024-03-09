@@ -11,7 +11,7 @@ public interface BoardDao {
 	 * @param typeSeq
 	 * @return
 	 */
-	public BoardDto list(BoardDto boardDto);
+	public ArrayList<BoardDto> list(HashMap<String, Object> params);
 	
 	/**
 	 * 총 글 수 
@@ -33,7 +33,6 @@ public interface BoardDao {
 	 * 글 조회  
 	 */
 	public BoardDto read(BoardDto boardDto);
-//	public BoardDto read(HashMap<String, Object> params);
 	/**
 	 * 조회수 증가.
 	 * @param params

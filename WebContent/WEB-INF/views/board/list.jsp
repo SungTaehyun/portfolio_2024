@@ -33,14 +33,14 @@
 				</thead>
 				<tbody>
 
-					<c:forEach var="board" items="${key}">
+					<c:forEach var="board" items="${key}" varStatus="rowStatus">
 						<tr>
 							<td align="center">${board.boardSeq}</td>
-							<td><span class="bold"> 
-							<a href="javascript:movePage('/board/read.do?boardSeq=${board.boardSeq}&currentPage=currentPage')">
+							<td><span class="bold"> <a
+									href="javascript:movePage('/board/read.do?boardSeq=${board.boardSeq}&currentPage=currentPage')">
 										${board.title} </a>
 							</span></td>
-							
+
 							<td>${board.memberNick}</td>
 							<td>${board.hits}</td>
 							<td>${board.hasFile}</td>
@@ -54,10 +54,27 @@
 		<div class="row text-center">
 			<div class="col-md-12">
 				<ul class="pagination pagination-simple pagination-sm">
-					<!-- 페이징 -->
-					<li class="page-item"><a class="page-link"
-						href="javascript:movePage('/board/list.do?page=1')">&laquo;</a></li>
-					<li class="page-item"><a class="page-link">1</a></li>
+
+
+
+
+
+					<!-- 현재 페이지가 1보다 클 때(즉, 현재페이지가 1이 아닐 때) -->
+					<c:if test="${pageDto.currentPage !=1 }">
+						<li class="page-item"><a class="page-link"
+							href="javascript:movePage('/board/list.do?currentPage=${pageDto.currentPage - 1}')">&laquo;</a></li>
+					</c:if>
+
+					<!--  반복문 사용 시작값 = 현재페이지 / 네비 사이즈(=10) * 네비 사이즈(=10)  +1  (정수계산이라 가정)       종료값 시작값 + 9  -->
+					<c:forEach var="i" begin="${pageDto.startNavi}" end="${pageDto.endNavi}">
+						<!-- 페이지 링크 표시 -->
+						<li class="page-item"><a class="page-link"
+							href="javascript:movePage('/board/list.do?currentPage=${i}')">${i}</a>
+						</li>
+					</c:forEach>
+
+					<!-- <!--  반복문을 빠져 나오는 조건 i값이 MAX페이지값보다 클 때!  -->
+					<!-- <li class="page-item"><a class="page-link">1</a></li>
 					<li class="page-item active"><a class="page-link"
 						href="javascript:movePage('/board/list.do?page=2')">2</a></li>
 					<li class="page-item"><a class="page-link"
@@ -67,10 +84,13 @@
 					<li class="page-item"><a class="page-link"
 						href="javascript:movePage('/board/list.do?page=5')">5</a></li>
 					<li class="page-item"><a class="page-link"
-						href="javascript:movePage('/board/list.do?page=6')">6</a></li>
-					<li class="page-item"><a class="page-link"
-						href="javascript:movePage('/board/list.do?page=99')">&raquo;</a></li>S
-					</li>
+						href="javascript:movePage('/board/list.do?page=6')">6</a></li> -->
+					<!-- 현재 페이지가 MAX페이지보다 작을 때 -->
+					<c:if test="${pageDto.currentPage < pageDto.totalPage}">
+						<li class="page-item"><a class="page-link"
+							href="javascript:movePage('/board/list.do?currentPage=${pageDto.currentPage + 1}')">&raquo;</a>
+						</li>
+					</c:if>
 				</ul>
 			</div>
 		</div>

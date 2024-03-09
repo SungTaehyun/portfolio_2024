@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.lhs.dto.BoardDto;
+import com.lhs.dto.pageDto;
 import com.lhs.service.AttFileService;
 import com.lhs.service.BoardService;
 import com.lhs.util.FileUtil;
@@ -33,21 +34,55 @@ public class BoardController {
 	private String typeSeq = "2";
 
 	@RequestMapping("/board/list.do")
-	public ModelAndView goLogin(BoardDto boardDto) {
-	    if (boardDto.getTypeSeq() == null) {
-	        boardDto.setTypeSeq(this.typeSeq);
+	public ModelAndView golist(BoardDto boardDto, pageDto pagedto) {
+	   // 페이지dto 생성
+	    
+		 // 1. 현재 페이지 값 확인 및 설정(if-else사용)
+		/// 현재 페이지 값이 없거나 빈 문자열인 경우
+	    if(pagedto.getCurrentPage() == 0 || pagedto.getCurrentPage() == null){
+//	    	pagedto.setStartPage();   // 전달된 현재 페이지 값이 없으면, 시작 게시글 위치를 설정
+	    	pagedto.setStartPage((pagedto.getCurrentPage() - 1) * 10);   // 전달된 현재 페이지 값이 없으면, 시작 게시글 위치를 설정
+	    	System.out.println("페이지출력값확인 : " + (pagedto.getCurrentPage() - 1) * 10);
+	    } else {// 전달된 현재 페이지 값이 있는 경우, 시작 게시글 위치를 설정하고 현재 페이지를 설정
+	    	 pagedto.setStartPage((pagedto.getCurrentPage() - 1) * 10); // 시작 게시글 위치 설정
+	    	 System.out.println("페이지출력값확인2222222222222222222 : " + (pagedto.getCurrentPage() - 1) * 10);
+//	    	 pagedto.setStartPage(1); // 시작 게시글 위치 설정
 	    }
-
-	    BoardDto key = bService.list(boardDto);
-
+	    
+	    // 2. 페이지 크기 설정
+	    pagedto.getPageSize();
+	    
+	    // 3. typeseq값 확인 및 설정
+	    if (boardDto.getTypeSeq() == null) {
+	    	boardDto.setTypeSeq(Integer.parseInt(this.typeSeq));//Integer.parseInt을 이용해서 typeSeq을 형변환한다.
+	    }
+	    
+	    // 4. 게시물 목록 조회하기
+	    
+	    HashMap<String,Object> params1 = new HashMap<String,Object>();
+	    params1.put("typeSeq", this.typeSeq);
+	    params1.put("startPage", pagedto.getStartPage());
+	    params1.put("pageSize",  pagedto.getPageSize());
+	    ArrayList<BoardDto> key = bService.list(params1);
+	    System.out.println("asldkjlaksjd:"+key); // {member_id=jbw02003, hits=37, board_seq=7,...
+	    
 	    ModelAndView mv = new ModelAndView();
 	    mv.setViewName("board/list");
 	    mv.addObject("key", key);
-
-	    // BoardDto 객체의 필드를 직접 접근하여 작업
-	    Object boardSeq = key.getBoardSeq();
-	    // 필요에 따라 다른 필드에 대해서도 접근할 수 있습니다.
-
+	    
+	    // 5. 페이지 정보 설정(페이지 네비게이션을 구성하기 위해 시작 네비게이션과 최대 네비게이션 값을 설정)
+	    HashMap<String, String> params = new HashMap<String,String> ();
+	    params.put("typeSeq", typeSeq);
+	
+	    pagedto.setTotalPage(bService.getTotalArticleCnt(params)); //pageDto객체의 getTotalArticleCnt메서드를 사용해서 전체 게시물 수를 설정
+	    pagedto.setStartNavi(pagedto.getCurrentPage() -1 / pagedto.getPageNaviSize()*pagedto.getPageNaviSize() +1);//시작 네비게이션 설정(시작 네비는 현재페이지 기준으로 표시할 페이지 네비의 시작 값을 결정한다. 페이지 네비게이션의 크기가 5이고 현재 페이지가 7이라면 시작 네비게이션은 6이 됨)
+	    pagedto.setEndNavi(pagedto.getStartNavi()+9 ); //최대 네비게이션 설정하기(최대 네비는 전체 페이지 수를 기준으로 표시할 페이지 네비의 최대 값이다.예를 들어, 전체 페이지 수가 23이고 페이지 네비게이션의 크기가 5이면 최대 네비게이션은 5가 됨.)
+	    		//	 디버깅을 위해 list view로 전달되는 내용 출력
+ 
+	    // 6. 페이지 정보를 모델에 추가하여 뷰로 전달
+	    mv.addObject("pagedto",pagedto);
+	    
+	    // 6. 게시물 목록과 페이지 정보를 뷰에 전달하기
 	    return mv;
 	}
 
@@ -123,69 +158,74 @@ public class BoardController {
 
 
 	@RequestMapping("/board/read.do")
-	public ModelAndView read(@ModelAttribute("boardDto") BoardDto boardDto) {
+	public ModelAndView read(BoardDto boardDto) {
+		System.out.println("askjdlaksn22:" + boardDto);
 	    if (boardDto.getTypeSeq() == null) {
-	        boardDto.setTypeSeq(this.typeSeq);
+	        boardDto.setTypeSeq(Integer.parseInt(this.typeSeq));
 	    }
 
 	    BoardDto boardread = bService.read(boardDto);
-	    
+	    System.out.println("dalsfkjaslkdjf:" + boardread);//BoardDto [boardSeq=12, typeSeq=2, memberId=jbw02003, memberNick=123, title=totam tempore at libero neq
 	    ModelAndView mv = new ModelAndView();
 	    mv.addObject("boardread", boardread);
-	    mv.addObject("boardSeq", boardDto.getBoardSeq());
+	    System.out.println("alkfjie333:"+boardread);
 	    mv.setViewName("/board/read");
 	    return mv;
 	}
 
-	
 
 	@RequestMapping("/board/goToUpdate.do")
-	public ModelAndView goToUpdate(BoardDto boardDto, HttpSession session) {
+	public ModelAndView goToUpdate( BoardDto boardDto, HttpSession session) {
 	    ModelAndView mv = new ModelAndView();
-
+	    
+	    System.out.println("asdasdassczdv " + boardDto); //boardSeq=13
 	    // typeSeq가 boardDto에 없을 경우, 기존의 typeseq 기본값을 넣는다.
 	    if (boardDto.getTypeSeq() == null) {
-	        boardDto.setTypeSeq(this.typeSeq);
+	        boardDto.setTypeSeq(Integer.parseInt(this.typeSeq));
 	    }
 	    
 	    // 게시글 정보 읽어오기(bService의 read메서드에서 params에 담아서 객체에 저장
 	    BoardDto listupdate = bService.read(boardDto);
 	    
+	    System.out.println("aslkjadawisnk:"+listupdate);//BoardDto [boardSeq=13, typeSeq=2, memberId=jbw02003, memberNick=123, title=harum hits=12, createDtm=null, updateDtm=null, hasFile=nul
+	    
 	    //ModelAndView 객체에 게시물 정보 추가
-	    mv.addObject("listupdate", listupdate);
+	    mv.addObject("listUpdate", listupdate);
 	    
 	    // 뷰 이름 설정(update.jsp로 이동하게 하기 위해)
 	    mv.setViewName("/board/update"); 
 	    
 	    //값이 들어오는지 객체 찍어보기
-	    System.out.println("리스트업데이트                 :" + listupdate);
+	    System.out.println("리스트업데이트                 :" + listupdate); //BoardDto [boardSeq=13, typeSeq=2, memberId=jbw02003, memberNick=123, title=harum ............
 
 	    return mv; 
 	}
 
 	@RequestMapping("/board/update.do")
 	@ResponseBody // !!!!!!!!!!!! 비동기 응답
-	public HashMap<String, Object> update(BoardDto boardDto, MultipartHttpServletRequest mReq) {
+	public HashMap<String, Object> update(@ModelAttribute("BoardDto") BoardDto boardDto) {
 	    // 게시물 정보 출력해보기
-	    System.out.println("게시물출력해보기 : " + boardDto.toString());
+		System.out.println("게시물출력해보기 : " + boardDto);
 	    
 	    // typeSeq가 없을 경우, 기본값 typeSeq를 사용한다.
 	    if (boardDto.getTypeSeq() == null) {
-	        boardDto.setTypeSeq(this.typeSeq);
+	        boardDto.setTypeSeq(Integer.parseInt(this.typeSeq));
 	    }
 	    
 	    // 게시물을 업데이트하는 메서드를 호출하기
-	    int cnt = bService.update(boardDto, mReq.getFiles(typeSeq));
-	    
+	    int cnt = bService.update(boardDto, null);
+	   
 	    //업데이트 결과를 확인하기 위해 콘솔에 출력하기(만약 업데이트가 성공했다면 result 값은 1이 될 것)
-	    System.out.println("게시물 업데이트 결과값확인 : " + cnt);
+	    System.out.println("게시물업데이트결과값확인 : " + cnt);
 	    
 	    // 결과를 담은 HashMap 생성
 	    HashMap<String, Object> map = new HashMap<String, Object>();
+	    System.out.println("ASDFKJALSKDF:" + map);
+	    
 	    //1. 업데이트 결과 카운트. 성공했을 경우 1, 실패했을 경우 0
 	    map.put("cnt", cnt);
 	    //2. 업데이트 결과 메시지) 성공했을 경우 "게시물 업데이트 완료", 실패했을 경우 "게시물 업데이트 실패"가 출력
-	    map.put("msg", cnt==1?"게시물 업데이트 완료!!!":"게시물 업데이트 실패!!!");
+	    map.put("msg", cnt==1?"게시물 업데이트 완료":"게시물 업데이트 실패");
 	    //3. 업데이트 성공 시, 다음 페이지 경로 
 	    map.put("nextPage", cnt==1?"/board/list.do":"/board/list.do");
 	    return map;

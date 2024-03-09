@@ -92,12 +92,16 @@ $(document).ready(function(){
 							<div class="row">
 								<div class="col-md-12 text-right">
 							<c:if test="${ true }">				
-									<a href="javascript:movePage('/board/goToUpdate.do?boardSeq=${boardSeq}')">
-							       		 <button type="button" class="btn btn-primary"><i class="fa fa-pencil"></i> 수정</button>
-							   		</a>	
+					<c:if test="${not empty boardread }">
+						<a
+							href="javascript:movePage('/board/goToUpdate.do?boardSeq=${boardread.boardSeq}&title=${boardread.title}&content=${boardread.content}&memberNick=${boardread.memberNick }')">
+							</c:if>
+							<button type="button" class="btn btn-primary">
+								<i class="fa fa-pencil"></i> 수정
+							</button>
+						</a>
 							   		
-							   		
-									<a href="javascript:movePage('/board/delete.do?boardSeq=${boardSeq}')">
+									<a href="javascript:movePage('/board/delete.do?boardSeq=${boardInfo.boardSeq}')">
 									<button type="button" class="btn btn-primary"  id="btnDelete">
 											삭제
 									</button>

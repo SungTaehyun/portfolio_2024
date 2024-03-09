@@ -31,8 +31,11 @@ public class BoardServiceImpl implements BoardService {
 	private String saveLocation;
 
 	@Override
-	public BoardDto list(BoardDto boardDto) {
-	    return bDao.list(boardDto);
+	public ArrayList<BoardDto> list(HashMap<String, Object> params) {
+		// startSi
+		System.out.println("BoardServiceImpl의 list메서드 파라미터");
+		System.out.println(params);
+	    return bDao.list(params);
 	}
 
 // 위의 list 코드의 반환값을 BoardDto로 변경했을 시.
@@ -118,7 +121,7 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public int update(BoardDto boardDto, List<MultipartFile> mFiles) {
 		System.out.println("업데이트 확인            :" +  boardDto);
-//		if (params.get("hasFile").equals("Y")) { // 첨부파일 존재시
+//		if (boardDto.getHasFile().equals("Y")) { // 첨부파일 존재시
 //			// 파일 처리
 //		}
 		// 글 수정 dao

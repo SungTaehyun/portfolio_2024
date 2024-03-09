@@ -10,7 +10,7 @@ import com.lhs.dto.BoardDto;
 
 public interface BoardService {
 
-	public BoardDto list(BoardDto boardDto);
+	public ArrayList<BoardDto> list(HashMap<String, Object> params);
 
 	
 	public int getTotalArticleCnt(HashMap<String, String> params);
@@ -27,7 +27,6 @@ public interface BoardService {
 	 * 글 조회  
 	 */
 	public BoardDto read(BoardDto boardDto);
-//	public BoardDto read(BoardDto boardDto);
 	
 	/**
 	 * 글 수정 update 
@@ -51,6 +50,8 @@ public interface BoardService {
 	 * @return
 	 */
 	public int delete(HashMap<String, Object> params);
+
+
 	
 
 }
