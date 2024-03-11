@@ -26,12 +26,22 @@
 		</dependency>
 
 		<!--
+		https://mvnrepository.com/artifact/org.apache.tomcat.maven/tomcat7-maven-plugin -->
+		<dependency>
+			<groupId>org.apache.tomcat.maven</groupId>
+			<artifactId>tomcat7-maven-plugin</artifactId>
+			<version>2.2</version>
+		</dependency>
+
+
+		<!--
 		https://mvnrepository.com/artifact/org.mariadb.jdbc/mariadb-java-client -->
 		<dependency>
 			<groupId>org.mariadb.jdbc</groupId>
 			<artifactId>mariadb-java-client</artifactId>
 			<version>3.3.3</version>
 		</dependency>
+
 
 		<!-- thumbnail용 mvn -->
 		<!-- https://mvnrepository.com/artifact/org.imgscalr/imgscalr-lib -->
@@ -276,9 +286,9 @@
 	<!-- /적혀진 id에 해당하는 profile의 env 설정 -->
 
 	<build>
-		
+
 		<!-- WAR 파일 명 -->
-		<finalName>ROOT</finalName>
+		<finalName>sung</finalName>
 
 		<resources>
 			<resource>
@@ -293,8 +303,24 @@
 		</resources>
 
 		<!-- 환경설정에 관한 태그 -->
-		
+
 		<plugins>
+			<!-- 배포 -->
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<url>http://ec2-13-124-156-103.ap-northeast-2.compute.amazonaws.com:8080/manager/text</url>
+					<server>TomcatServer</server>
+					<path>/${project.build.finalName}</path>
+					<username>admin</username>
+					<password>1838</password>
+					<charset>UTF-8</charset>
+					<uriEncoding>UTF-8</uriEncoding>
+				</configuration>
+			</plugin>
+			
 			<!-- 리소스를 시스템 환경에 맞게 구분해주는 플러그인 -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -306,7 +332,6 @@
 			</plugin>
 			<!-- /resource 구분 플러그인 -->
 
-		
 
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>

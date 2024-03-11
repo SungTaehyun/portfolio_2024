@@ -13,6 +13,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
         has_file, hits, create_dtm, update_dtm
         FROM S_SungTaehyun.board        
         WHERE type_seq = #{typeSeq}
+        ORDER BY board_seq desc
                  LIMIT  #{startPage}, #{pageSize};
         
     </select>
@@ -62,8 +63,10 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	WHERE board_seq = #{boardSeq};
 	</update>
 
-	<update id="updateHasFileToZero" parameterType="HashMap">
-
+	<update id="updateHasFile" parameterType="HashMap">
+	UPDATE S_SungTaehyun.board
+	set has_file=#{hasFile}
+	where board_seq=#{boardSeq}
 	</update>
 
 	<delete id="delete" parameterType="HashMap">

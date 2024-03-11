@@ -25,9 +25,4 @@ public interface AttFileService {
 		 */
 		public int updateLinkedInfo();
 		
-
-
-
-	
-
 }

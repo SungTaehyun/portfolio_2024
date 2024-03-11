@@ -12,7 +12,14 @@ public class BoardDto {
     String createDtm;
     String updateDtm;
     String hasFile;
+    int page;
     
+	public int getPage() {
+		return page;
+	}
+	public void setPage(int page) {
+		this.page = page;
+	}
 	public Integer getBoardSeq() {
 		return boardSeq;
 	}
@@ -75,8 +82,8 @@ public class BoardDto {
 	}
 	@Override
 	public String toString() {
-		return "BoardDto [ boardSeq=" + boardSeq + ", typeSeq=" + typeSeq + ", memberId="
-				+ memberId + ", memberNick=" + memberNick + ", title=" + title + ", content=" + content + ", hits="
-				+ hits + ", createDtm=" + createDtm + ", updateDtm=" + updateDtm + ", hasFile=" + hasFile + "]";
+		return "BoardDto [boardSeq=" + boardSeq + ", typeSeq=" + typeSeq + ", memberId=" + memberId + ", memberNick="
+				+ memberNick + ", title=" + title + ", content=" + content + ", hits=" + hits + ", createDtm="
+				+ createDtm + ", updateDtm=" + updateDtm + ", hasFile=" + hasFile + ", page=" + page + "]";
 	}
 }

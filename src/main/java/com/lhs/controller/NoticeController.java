@@ -101,28 +101,28 @@ public class NoticeController {
 			//본인 체크. 
 
 			//해당 글 정보 받기 위해 read 
-			HashMap<String, Object> boardInfo = bService.read(params);
-			mv.addObject("boardInfo" , boardInfo);
-			System.out.println("fuuuuuuuuuck");
-			System.out.println(boardInfo);
-			if(boardInfo.get("has_file").equals("Y")) {//첨부파일 존재하면 
+////			HashMap<String, Object> boardInfo = bService.read(params);
+//			mv.addObject("boardInfo" , boardInfo);
+//			System.out.println("fuuuuuuuuuck");
+//			System.out.println(boardInfo);
+//			if(boardInfo.get("has_file").equals("Y")) {//첨부파일 존재하면 
 				List<HashMap<String, Object>> fileInfos = attFileService.readAttFiles(params); 
 				mv.addObject("attFiles", fileInfos);
 
 			}
 
-			mv.setViewName("/notice/update");
-			return mv;
-		}else { // 로그인 세션 풀렸을때,  -> 잘못된 접근.. -> 공통화 
-			mv.setViewName("common/error"); // 잘못된 접근시 error 페이지 보여준다. 
-
-			mv.addObject("msg" , "로그인 하세요");
-			mv.addObject("nextLocation","/index.do");
-
-		}
-		return mv;
-
-	}
+//			mv.setViewName("/notice/update");
+//			return mv;
+//		}else { // 로그인 세션 풀렸을때,  -> 잘못된 접근.. -> 공통화 
+//			mv.setViewName("common/error"); // 잘못된 접근시 error 페이지 보여준다. 
+//
+//			mv.addObject("msg" , "로그인 하세요");
+//			mv.addObject("nextLocation","/index.do");
+//
+//		}
+//		return mv;
+//
+//	}
 
 	@RequestMapping("/notice/update.do")
 	@ResponseBody // !!!!!!!!!!!! 비동기 응답 

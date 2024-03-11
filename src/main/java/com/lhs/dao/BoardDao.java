@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.lhs.dto.BoardDto;
+import com.lhs.dto.FileDto;
 
 public interface BoardDao {
 	/**
@@ -27,7 +28,8 @@ public interface BoardDao {
 	 * @return
 	 */
 	public int write(HashMap<String, Object> params);
-	
+
+	public FileDto getFileInfo(int fileIdx);
 	
 	/**
 	 * 글 조회  
@@ -61,11 +63,12 @@ public interface BoardDao {
 	 */
 	public int delete(HashMap<String, Object> params);
 	
+	
 
 	public int deleteFile(HashMap<String, Object> params);
 
+	
+	
+	public int updateHasFile(HashMap<String, Object> updateParams);
 
-	
-	
-	
 }

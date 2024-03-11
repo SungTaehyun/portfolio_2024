@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.lhs.dto.BoardDto;
+import com.lhs.dto.FileDto;
 import com.lhs.dto.pageDto;
 import com.lhs.service.AttFileService;
 import com.lhs.service.BoardService;
@@ -108,7 +109,7 @@ public class BoardController {
 		return mv;
 	}
 
-	@RequestMapping("/board/write.do")
+	@RequestMapping("/board/write.do") //list.jsp에서
 	@ResponseBody // 게시물 번호 = boardseq
 	public HashMap<String, Object> write(@RequestParam HashMap<String, Object> params,
 			MultipartHttpServletRequest mReq) { // MultipartHttpServletRequest mReq는 파일 업로드와 관련된 데이터를 처리할 수 있다.
@@ -129,11 +130,11 @@ public class BoardController {
 		return null;// 반환타입은 아무런 값을 반환하지 않음
 	}
 
-	@RequestMapping("/board/downdload.do")
+	@RequestMapping("/board/download.do")
 	@ResponseBody
-	public byte[] downdloadFile(@RequestParam int fileIdx, HttpServletResponse rep) {
+	public byte[] downloadFile(@RequestParam int fileIdx, HttpServletResponse rep) {
 		// 1.받아온 파람의 파일 pk로 파일 전체 정보 불러온다. -attFilesService필요!
-		HashMap<String, Object> fileInfo = null;
+		FileDto fileInfo = bService.getFileInfo(fileIdx);
 
 		// 2. 받아온 정보를 토대로 물리적으로 저장된 실제 파일을 읽어온다.
 		byte[] fileByte = null;
@@ -145,9 +146,9 @@ public class BoardController {
 
 		// 돌려보내기 위해 응답(httpServletResponse rep)에 정보 입력. **** 응답사용시 @ResponseBody 필요 !!
 		// Response 정보전달: 파일 다운로드 할수있는 정보들을 브라우저에 알려주는 역할
-		rep.setHeader("Content-Disposition", "attachment; filename=\"" + fileInfo.get("file_name") + "\""); // 파일명
-		rep.setContentType(String.valueOf(fileInfo.get("file_type"))); // content-type
-		rep.setContentLength(Integer.parseInt(String.valueOf(fileInfo.get("file_size")))); // 파일사이즈
+		rep.setHeader("Content-Disposition", "attachment; filename=\"" + fileInfo.getFileName() + "\""); // 파일명
+		rep.setContentType(fileInfo.getFileType()); // content-type
+		rep.setContentLength(fileInfo.getFileSize()); // 파일사이즈
 		rep.setHeader("pragma", "no-cache");
 		rep.setHeader("Cache-Control", "no-cache");
 
@@ -158,8 +159,8 @@ public class BoardController {
 
 
 	@RequestMapping("/board/read.do")
-	public ModelAndView read(BoardDto boardDto) {
-		System.out.println("askjdlaksn22:" + boardDto);
+	public ModelAndView read(@ModelAttribute("BoardDto") BoardDto boardDto) {
+		System.out.println("read의 boardDto " + boardDto);
 	    if (boardDto.getTypeSeq() == null) {
 	        boardDto.setTypeSeq(Integer.parseInt(this.typeSeq));
 	    }
@@ -168,7 +169,7 @@ public class BoardController {
 	    System.out.println("dalsfkjaslkdjf:" + boardread);//BoardDto [boardSeq=12, typeSeq=2, memberId=jbw02003, memberNick=123, title=totam tempore at libero neq
 	    ModelAndView mv = new ModelAndView();
 	    mv.addObject("boardread", boardread);
-	    System.out.println("alkfjie333:"+boardread);
+	    System.out.println("boardread값 출력 하기 :"+boardread);
 	    mv.setViewName("/board/read");
 	    return mv;
 	}
@@ -191,6 +192,11 @@ public class BoardController {
 	    
 	    //ModelAndView 객체에 게시물 정보 추가
 	    mv.addObject("listUpdate", listupdate);
+	    
+	 // 첨부 파일 정보 
+	 		ArrayList<FileDto> attFiles = bService.readFile(boardDto);
+	 		mv.addObject("attFiles", attFiles);
+	 		mv.addObject("curentPage", boardDto.getPage());
 	    
 	    // 뷰 이름 설정(update.jsp로 이동하게 하기 위해)
 	    mv.setViewName("/board/update"); 

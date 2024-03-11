@@ -58,6 +58,6 @@ public interface AttFileDao {
 	 */
 	public int updateLinkedInfos(ArrayList<Integer> fileIdxs);
 	
-	
+	public int countAttFile(String boardSeq);
 	
 }

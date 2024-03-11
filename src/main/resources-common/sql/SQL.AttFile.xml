@@ -21,6 +21,12 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
  	<select id="readAttFileByPk" parameterType="int" resultType="HashMap">
  	</select>
  	
+	<select id ="countAttFile" parameterType="String" resultType = "int">
+	select count(1)
+	from S_SungTaehyun.board_attach
+	where board_seq=#{boardSeq};
+	</select>
+ 	
  	<delete id ="deleteAttFile" parameterType="HashMap">
  	</delete>
  	
