@@ -165,7 +165,7 @@
 							<!-- SLIDE --> 
 							<li data-transition="random" data-slotamount="1" data-masterspeed="1000" data-saveperformance="off" data-title="Slide 1">
 	
-								<img data-lazyload="resources/demo_files/images/index/index-min.jpg" alt="" data-bgfit="cover" data-bgposition="center bottom" data-bgrepeat="no-repeat" />
+								<img data-lazyload="resources/demo_files/images/index/red.jpg" alt="" data-bgfit="cover" data-bgposition="center bottom" data-bgrepeat="no-repeat" />
 	
 								<div class="tp-caption customin ltl tp-resizeme text_white"
 									data-x="center"
@@ -181,7 +181,7 @@
 									data-endspeed="1000"
 									data-endeasing="Power4.easeIn" style="z-index: 10; font-size:20px;">
 									<span class="fw-300"> 잘 오셨습니다.
-									<b style="font-size:20px">아무개</b>의 포트폴리오 사이트 입니다. :) </span>
+									<b style="font-size:20px">성태현</b>의 포트폴리오 사이트 입니다. :) </span>
 								</div>
 	
 								<div class="tp-caption customin ltl tp-resizeme large_bold_white"
@@ -197,7 +197,7 @@
 									data-endelementdelay="0.1"
 									data-endspeed="1000"
 									data-endeasing="Power4.easeIn" style="z-index: 10;">
-									WELCOME TO MY WORLD
+									PORTFOLIO 24.02.16 ~ 24.03.24
 								</div>
 	
 								<div class="tp-caption customin ltl tp-resizeme small_light_white font-lato"
@@ -232,7 +232,7 @@
 							<!-- SLIDE 2--> 
 							<li data-transition="random" data-slotamount="1" data-masterspeed="1000" data-saveperformance="off" data-title="Slide 2">
 	
-								<img src="" data-lazyload="resources/demo_files/images/index/24-min.jpg" alt="" data-bgposition="center center" data-kenburns="on" data-duration="10000" data-ease="Linear.easeNone" data-bgfit="100" data-bgfitend="110" />
+								<img src="" data-lazyload="resources/demo_files/images/index/black.jpg" alt="" data-bgposition="center center" data-kenburns="on" data-duration="10000" data-ease="Linear.easeNone" data-bgfit="100" data-bgfitend="110" />
 	
 								<div class="tp-caption very_large_text lfb ltt tp-resizeme"
 									data-x="right" data-hoffset="-100"
@@ -246,7 +246,7 @@
 									data-endelementdelay="0.1"
 									data-endspeed="500"
 									data-endeasing="Power4.easeIn">
-									BEING AWAKE.
+									JUST DO IT
 								</div>
 	
 								<div class="tp-caption medium_light_white lfb ltt tp-resizeme"
@@ -261,9 +261,9 @@
 									data-endelementdelay="0.1"
 									data-endspeed="500"
 									data-endeasing="Power4.easeIn">
-									Happiness is an accident of nature,<br/>
-									a beautiful and flawless aberration.<br/>
-									<span style="font-size:24px;font-weight:400;">&ndash; Hyesue Lee</span>
+									<br/>
+								꾸준히 노력하는 개발자.<br/>
+									<span style="font-size:24px;font-weight:400;">&ndash; SungTaeHyun</span>
 								</div>
 							</li>
 						</ul>

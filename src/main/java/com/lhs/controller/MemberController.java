@@ -4,19 +4,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
-import com.lhs.dto.Member;
 import com.lhs.service.MemberService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -61,24 +59,32 @@ public class MemberController {
 
 	@RequestMapping("/member/join.do")
 	@ResponseBody
-	public HashMap<String, Object> join(@RequestParam HashMap<String, String> params) {
-		HashMap<String, Object> map = new HashMap<String, Object>(); // 객체를 생성하여 클라이어느에게 반환할 결과를 담을 떄 사용.
+	public HashMap<String, Object> join(@RequestParam HashMap<String, String> params, HttpServletRequest request) {
+	    HashMap<String, Object> map = new HashMap<String, Object>(); 
 
-		System.out.println("memberId : " + params.get("memberId"));
-		System.out.println("memberName : " + params.get("memberName"));
-		System.out.println("memberPw : " + params.get("memberPw"));
-		System.out.println("memberNick : " + params.get("memberNick"));
-		System.out.println("email : " + params.get("email"));
+	    System.out.println("memberId : " + params.get("memberId"));
+	    System.out.println("memberPw : " + params.get("memberPw"));
+	    System.out.println("email : " + params.get("email"));
 
-		// 회원가입 성공하면 1, 실패하면 0를 반환
-		int cnt = mService.join(params);
-		System.out.println("cnt : " + cnt); // 회원가입 완료
+	    int cnt = mService.join(params);
+	    System.out.println("cnt : " + cnt); 
 
-		map.put("cnt", cnt);
-		map.put("msg", cnt == 1 ? "회원 가입 완료!" : "회원 가입 실패!");
-		map.put("nextPage", cnt == 1 ? "/member/goLoginPage.do" : "/member/goRegisterPage.do");
-		return map;
+	    map.put("cnt", cnt);
+	    map.put("msg", cnt == 1 ? "회원 가입 완료!" : "회원 가입 실패!");
+	    String email = params.get("email"); // 수정: memberDto.params.get("email") 대신 params.get("email") 사용
+
+	    boolean emailOk = mService.Welcomeemail(email, request); // 수정: memberDto 대신 params 사용
+	    if (emailOk) {
+	        System.out.println("가입 환영 이메일 발송 완료! : " + emailOk);
+	    } else {
+	        System.out.println("가입은 완료했지만 이메일은 미발송 : " + emailOk);
+	        // 해결 방안
+	    }
+
+	    map.put("nextPage", cnt == 1 ? "/member/goLoginPage.do" : "/member/goRegisterPage.do");
+	    return map;
 	}
+
 
 	@RequestMapping("/member/logout.do")
 	public ModelAndView logout(HttpSession session) {

@@ -111,8 +111,7 @@ public class BoardController {
 
 	@RequestMapping("/board/write.do") //list.jsp에서
 	@ResponseBody // 게시물 번호 = boardseq
-	public HashMap<String, Object> write(@RequestParam HashMap<String, Object> params,
-			MultipartHttpServletRequest mReq) { // MultipartHttpServletRequest mReq는 파일 업로드와 관련된 데이터를 처리할 수 있다.
+	public int write(@RequestParam HashMap<String, Object> params, MultipartHttpServletRequest mReq) { // MultipartHttpServletRequest mReq는 파일 업로드와 관련된 데이터를 처리할 수 있다.
 		// @RequestParam HashMap<String, Object> params, MultipartHttpServletRequest
 		// mReq)을 Dto로 변경하면 코드를 더 깔끔하게 만들 수 있습니다.
 		System.out.println("params파람 : " + params);// params통해 출력된 정보를 토대로 boardDto를 만들면 된다.
@@ -120,20 +119,19 @@ public class BoardController {
 		if (!params.containsKey("typeSeq")) {// params맵에 typeSeq(게시물번호)가 존재하지 않으면
 			params.put("typeSeq", this.typeSeq);// , this.typeSeq값을 기본으로 한다. 여기서 this는 본래의 typeSeq값(즉, 위에서 선언한 private
 												// String typeSeq = "2";를 의미한다.)
-			System.out.println(mReq);// mReq 출력해봄
+			System.out.println("파일업로드와 관련된 데이터출력               :"+mReq);// mReq 출력해봄
+			System.out.println("typeSeq 출력하기                :"+typeSeq);
 		}
 
-		bService.write(params, mReq.getFiles("attFiles")); // 서비스 객체(bService)의 write 메서드를 호출하고,
-															// mReq.getFiles("attFiles")는 파일업로드(mReq)와 관련된 파일을 추출하여
-															// params에 담는다???
-		// 여기서 params는 게시글과 관련된 정보를 담고 있는 맵, "attFiles"는 파일 업로드 폼에서 정의한 파일 필드의 이름
-		return null;// 반환타입은 아무런 값을 반환하지 않음
-	}
+		 int result = bService.write(params, mReq.getFiles("attFiles")); 
+
+		    return result; // 게시글 작성 결과를 반환합니다. 반환되는 값은 게시글의 번호일 것으로 예상
+		}
 
 	@RequestMapping("/board/download.do")
 	@ResponseBody
 	public byte[] downloadFile(@RequestParam int fileIdx, HttpServletResponse rep) {
-		// 1.받아온 파람의 파일 pk로 파일 전체 정보 불러온다. -attFilesService필요!
+		// 1.받아온 파람의 파일 pk로 파일 전체 정보 불러온다. -attFilesService
 		FileDto fileInfo = bService.getFileInfo(fileIdx);
 
 		// 2. 받아온 정보를 토대로 물리적으로 저장된 실제 파일을 읽어온다.
@@ -154,7 +152,6 @@ public class BoardController {
 
 		return fileByte;
 
-// /board/download.do?fileIdx=1
 	}
 
 

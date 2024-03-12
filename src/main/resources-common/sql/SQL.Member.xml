@@ -57,5 +57,15 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	<delete id="delMember" parameterType="HashMap">
 
 	</delete>
+	
+	<!-- 
+		 회원가입 완료하면 이메일로 환영문자 보내기
+		 public MemberDto Welcomeemail(String email); 
+	-->
+	<select id="Welcomeemail" parameterType="String" resultType="Member">
+		SELECT member_idx, type_seq, member_id, member_pw, member_name, member_nick, email, create_dtm, update_dtm, membercol
+		FROM S_SungTaehyun.member
+		where email = #{email};
+	</select>
 
 </mapper>

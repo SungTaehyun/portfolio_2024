@@ -24,4 +24,6 @@ public interface MemberDao {
 	
 	public int delMember(HashMap<String,Object> params);
 	
+	public Member Welcomeemail(String email);
+	
 }

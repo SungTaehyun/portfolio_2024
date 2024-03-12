@@ -3,6 +3,7 @@ package com.lhs.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.lhs.dto.Member;
@@ -23,6 +24,8 @@ public interface MemberService {
 	public int delMember(HashMap<String,Object> params);
 
 	public boolean login(HashMap<String, String> params, HttpSession session)throws UserNotFoundException, PasswordMissMatchException;//result값이 ture인지 false인지 상태에 따른 결과로 boolean을 사
+
+	public boolean Welcomeemail(String email, HttpServletRequest request);
 
 	// 로그인시 ID와 비밀번호가 일치하는지 확인
 }

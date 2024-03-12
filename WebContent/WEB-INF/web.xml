@@ -17,7 +17,7 @@
 		<param-value>classpath*:/applicationContext*.xml</param-value>
 	</context-param>
 	<!-- Spring configuration end -->
-
+	
 	<!-- 한글 처리를 위한 필터 설정 -->
 	<filter>
 		<filter-name>encodingFilter</filter-name>

@@ -26,7 +26,7 @@
 						<!-- SLIDE --> 
 						<li data-transition="random" data-slotamount="1" data-masterspeed="1000" data-saveperformance="off" data-title="Slide 1">
 
-							<img data-lazyload="resources/demo_files/images/index/index-min.jpg" alt="" data-bgfit="cover" data-bgposition="center bottom" data-bgrepeat="no-repeat" />
+							<img data-lazyload="resources/demo_files/images/index/red.jpg" alt="" data-bgfit="cover" data-bgposition="center bottom" data-bgrepeat="no-repeat" />
 
 							<div class="tp-caption customin ltl tp-resizeme text_white"
 								data-x="center"
@@ -125,9 +125,9 @@
 								data-endelementdelay="0.1"
 								data-endspeed="500"
 								data-endeasing="Power4.easeIn">
-								Happiness is an accident of nature,<br/>
-								a beautiful and flawless aberration.<br/>
-								<span style="font-size:24px;font-weight:400;">&ndash; Hyesue Lee</span>
+								portfolio 시작 2024.02.16,<br/>
+								꾸준히 노력하는 개발자.<br/>
+								<span style="font-size:24px;font-weight:400;">&ndash; SungTaeHyun</span>
 							</div>
 
 						</li>
