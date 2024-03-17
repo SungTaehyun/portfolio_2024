@@ -80,7 +80,6 @@ buildNumber.properties
 # Eclipse Core
 
 # JDT-specific (Eclipse Java Development Tools)
-.classpath
 
 ### VisualStudioCode ###
 .vscode/*
