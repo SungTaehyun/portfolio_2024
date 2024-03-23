@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.lhs.dto.FileDto;
+import com.lhs.dto.AttFileDto;
 
 //물리적 위치로 파일 저장 
 
@@ -50,7 +50,7 @@ public class FileUtil {
 	/**
 	 * 파일 읽기(다운로드) 
 	 */
-	public byte[] readFile(FileDto fileInfo) {
+	public byte[] readFile(AttFileDto fileInfo) {
 		//1. 파일 찾기 File(파일위치, 파일명)  
 		File f = new File(saveLocation, fileInfo.getFakeFileName());// 파일명 페이크네임으로 저장되어있으므로. 
 		byte[] fileByte = null;
@@ -62,9 +62,6 @@ public class FileUtil {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		}
-		else {	// 물리적 위치에 파일 없음
-			// 
 		}
 		return fileByte;  // 바이트 배열의 파일 리턴.. 
 	}

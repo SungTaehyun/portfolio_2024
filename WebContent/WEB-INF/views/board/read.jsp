@@ -9,21 +9,60 @@
 <script src="<c:url value='/resources/js/scripts.js'/>"></script>
 
 <script type="text/javascript">
-	$(document).ready(function() {
 
-		$('#btnUpdate').on('click', function() {
-			var frm = document.readForm;
-			var formData = new FormData(frm);
-			// code here
-		});
+var ctx = "${pageContext.request.contextPath}";
 
-		$('#btnDelete').on('click', function() {
-			if (confirm("삭제하시겠습니까?")) {
-				// code here
+$(document).ready(function() {
+	var url = ctx + '/board/read.do?page=' + ${page} + '&boardSeq=' + ${boardSeq};
+	history.pushState({}, '', url);
+
+	$('#btnUpdate').on('click', function() {
+		var frm = document.readForm;
+		var formData = new FormData(frm);
+		// code here
+	});
+
+						
+						
+						
+				//클릭시 삭제하는..(일단 파일 업로드부터 하자...)		
+						$('#btnDelete').on('click', function(){      
+						      if(confirm("삭제하시겠습니까?")){
+						         customAjax("<c:url value='/board/delete.do?boardSeq=${boardSeq}' />", "/board/list.do?page=${currentPage}");
+						      }
+						   });
+
+					});//ready
+					
+					
+	function customAjax(url, responseUrl) {
+		var frm = document.updateForm;
+		var formData = new FormData(frm);
+		$.ajax({
+			url : url,
+			data : formData,
+			type : 'POST',
+			dataType : "text",
+			processData : false,
+			contentType : false,
+			success : function(result, textStatus, XMLHttpRequest) {
+				var data = $.parseJSON(result);
+
+				console.log('data' + data);
+				console.log('boardSeq' + data.boardSeq);
+
+				alert(data.msg);
+				var boardSeq = data.boardSeq;
+
+				movePage(responseUrl);
+
+			},
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+				alert("작성 에러\n관리자에게 문의바랍니다.");
+				console.log("작성 에러\n" + XMLHttpRequest.responseText);
 			}
 		});
-
-	});//ready
+	} // func customAjax End
 </script>
 
 </head>
@@ -66,12 +105,9 @@
 				<!-- 첨부파일 없으면  -->
 				<c:if test="${empty attFiles}">
 					<tr>
-						<th class="tright"><a
-							href="<c:url value='/board/download.do'/>">#첨부파일 다운로드 횟수</a>
-						</th>
-						<td colspan="6" class="tright"></td>
+						<th class="tright">첨부파일 없음</th>
+						<td colspan="6" class="tright"></td><!-- 걍빈칸  -->
 					</tr>
-
 				</c:if>
 
 				<!-- 파일있으면  -->
@@ -95,9 +131,9 @@
 				</c:forEach>
 
 			</div>
+			
 			<div class="row">
 				<div class="col-md-12 text-right">
-					<c:if test="${ true }">
 						<c:if test="${not empty boardread }">
 							<a
 								href="javascript:movePage('/board/goToUpdate.do?boardSeq=${boardread.boardSeq}&title=${boardread.title}&content=${boardread.content}&memberNick=${boardread.memberNick }')">
@@ -107,12 +143,10 @@
 						</button>
 						</a>
 
-						<a
-							href="javascript:movePage('/board/delete.do?boardSeq=${boardInfo.boardSeq}')">
-							<button type="button" class="btn btn-primary" id="btnDelete">
-								삭제</button>
-					</c:if>
-
+						<!-- <a href="javascript:movePage('/board/delete.do?boardSeq=${boardInfo.boardSeq}')"> -->
+							
+							<button type="button" class="btn btn-primary" id="btnDelete">삭제</button>
+							
 					<c:choose>
 						<c:when test="${empty currentPage}">
 							<a href="javascript:movePage('/board/list.do')">

@@ -4,25 +4,34 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
 
 <mapper namespace="com.lhs.dao.BoardDao">
-		<!-- SELECT board_seq, type_seq, member_id, member_nick, title, content, 
-			has_file, hits, create_dtm, update_dtm FROM S_SungTaehyun.board WHERE type_seq 
-			= 2 ORDER BY RAND() LIMIT 10;  -->
+	<!-- SELECT board_seq, type_seq, member_id, member_nick, title, content, 
+		has_file, hits, create_dtm, update_dtm FROM S_SungTaehyun.board WHERE type_seq 
+		= 2 ORDER BY RAND() LIMIT 10; -->
 
-	 <select id="list" parameterType="HashMap" resultType="com.lhs.dto.BoardDto">
-        SELECT board_seq, type_seq, member_id, member_nick, title, content,
-        has_file, hits, create_dtm, update_dtm
-        FROM S_SungTaehyun.board        
-        WHERE type_seq = #{typeSeq}
-        ORDER BY board_seq desc
-                 LIMIT  #{startPage}, #{pageSize};
-        
-    </select>
+	<select id="list" parameterType="HashMap"
+		resultType="com.lhs.dto.BoardDto">
+		SELECT board_seq, type_seq, member_id, member_nick, title, content,
+		has_file, hits, create_dtm, update_dtm
+		FROM S_SungTaehyun.board
+		WHERE type_seq = #{typeSeq}
+		ORDER BY board_seq desc
+		LIMIT #{startPage}, #{pageSize};
+
+	</select>
+	
+	<!-- public FileDto getFileInfo(int fileIdx, int boardSeq); -->
+	<select id="getFileInfo" parameterType="int" resultType="com.lhs.dto.AttFileDto">
+		SELECT file_idx, type_seq, board_seq, file_name, fake_filename, file_size, file_type, save_loc, create_dtm
+		FROM S_SungTaehyun.board_attach
+		WHERE file_idx = #{fildIdx};
+	</select>
 
 
-<!-- 총 게시물 수 -->
-	<select id="getTotalArticleCnt" parameterType="HashMap" resultType="int">
-	select count(1) FROM S_SungTaehyun.board
-	where type_seq=#{typeSeq};
+	<!-- 총 게시물 수 -->
+	<select id="getTotalArticleCnt" parameterType="HashMap"
+		resultType="int">
+		select count(1) FROM S_SungTaehyun.board
+		where type_seq=#{typeSeq};
 	</select>
 
 
@@ -41,13 +50,14 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	<!-- resultType에 BoardDto를 넣는 것과 com.lhs.dto.BoardDto를 넣는 것의 차이는? -->
 	<!-- 일반적으로는 패키지 경로를 포함한 완전한 클래스 이름을 사용하는 것이 더 안전하며, 클래스 이름 충돌을 방지할 수 있다, 
 		@Alias("board")의 board로 넣어도 된다. -->
-	<select id="read" parameterType="com.lhs.dto.BoardDto" resultType="com.lhs.dto.BoardDto">
-    SELECT
-    type_seq, member_id, member_nick, title, content, has_file, board_seq,
-    hits, create_dtm, update_dtm
-    FROM S_SungTaehyun.board
-    where board_seq = #{boardSeq} and type_seq = #{typeSeq};
-</select>
+	<select id="read" parameterType="com.lhs.dto.BoardDto"
+		resultType="com.lhs.dto.BoardDto">
+		SELECT
+		type_seq, member_id, member_nick, title, content, has_file, board_seq,
+		hits, create_dtm, update_dtm
+		FROM S_SungTaehyun.board
+		where board_seq = #{boardSeq} and type_seq = #{typeSeq};
+	</select>
 
 
 	<update id="updateHits" parameterType="com.lhs.dto.BoardDto">
@@ -58,26 +68,26 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 
 
 	<update id="update" parameterType="com.lhs.dto.BoardDto">
-	UPDATE S_SungTaehyun.board
-	SET title=#{title}, content=#{content}, update_dtm = DATE_FORMAT(now(), '%Y%m%d%H%i%s')
-	WHERE board_seq = #{boardSeq};
+		UPDATE S_SungTaehyun.board
+		SET title=#{title}, content=#{content}, update_dtm = DATE_FORMAT(now(),
+		'%Y%m%d%H%i%s')
+		WHERE board_seq = #{boardSeq};
 	</update>
 
 	<update id="updateHasFile" parameterType="HashMap">
-	UPDATE S_SungTaehyun.board
-	set has_file=#{hasFile}
-	where board_seq=#{boardSeq}
+		UPDATE S_SungTaehyun.board
+		set has_file=#{hasFile}
+		where board_seq=#{boardSeq}
 	</update>
 
-	<delete id="delete" parameterType="HashMap">
-		DELETE FROM
-		S_SungTaehyun.board
-		WHERE board_seq=#{boardSeq};
+	<delete id="delete" parameterType="com.lhs.dto.BoardDto">
+		DELETE FROM S_SungTaehyun.board
+		WHERE board_seq=#{boardSeq} AND type_seq=#{typeSeq};
 	</delete>
 
 	<!-- public int deleteFile(HashMap<String, Object> params); -->
 	<delete id="deleteFile" parameterType="HashMap">
-	
+
 	</delete>
 
 

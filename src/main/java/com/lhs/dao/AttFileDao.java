@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.lhs.dto.AttFileDto;
+import com.lhs.dto.BoardDto;
+
 
 
 public interface AttFileDao {
@@ -19,7 +22,8 @@ public interface AttFileDao {
 	 * @param params
 	 * @return
 	 */
-	public List<HashMap<String, Object>> readAttFiles(HashMap<String, Object> params);
+	// 1. 첨부파일 읽기1 : typeSeq, board_seq 통한 해당 게시글의 모든 첨부파일 불러오기
+		public List<AttFileDto> readAttFiles(BoardDto read); // 
 	
 	/**
 	 *	pk를 통해 해당 첨부파일 불러오기.

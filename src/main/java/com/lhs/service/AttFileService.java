@@ -3,13 +3,16 @@ package com.lhs.service;
 import java.util.HashMap;
 import java.util.List;
 
+import com.lhs.dto.AttFileDto;
+import com.lhs.dto.BoardDto;
+
 public interface AttFileService {
 	
 	/** type, board_seq 통한 해당 게시글의 모든 첨부파일 불러오기. 
 	 * @param params
 	 * @return
 	 */
-	public List<HashMap<String, Object>> readAttFiles(HashMap<String, Object> params);
+	List<AttFileDto> readAttFiles(BoardDto read);
 	
 	/**
 	 *	pk를 통해 해당 첨부파일 불러오기.
@@ -24,5 +27,6 @@ public interface AttFileService {
 		 /* 파일 없으면 컬럼 linked 값 수정 1건. 
 		 */
 		public int updateLinkedInfo();
+
 		
 }

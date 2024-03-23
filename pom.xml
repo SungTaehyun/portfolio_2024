@@ -33,7 +33,7 @@
 			<version>2.2</version>
 		</dependency>
 
-	<!-- 이메일 가입메시지 기능 -->
+		<!-- 이메일 가입메시지 기능 -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context-support</artifactId>
@@ -281,7 +281,7 @@
 
 	</dependencies>
 
-	<!-- 적혀진 id에 해당하는 profile의 env 설정 -->
+	<!-- 적혀진 id에 해당하는 profile의 env 설정 (op - operation) -->
 	<profiles>
 		<profile>
 			<id>local</id>
@@ -308,6 +308,9 @@
 				<directory>src/main/resources-common</directory>
 			</resource>
 			<resource>
+				<directory>src/main/resources-${env}</directory>
+			</resource>
+			<resource>
 				<directory>${project.build.sourceDirectory}</directory>
 				<includes>
 					<include>**/*.java</include>
@@ -325,7 +328,7 @@
 				<version>2.2</version>
 				<configuration>
 					<url>
-						http://ec2-13-124-156-103.ap-northeast-2.compute.amazonaws.com:8080/manager/text</url>
+						http://ec2-15-164-224-24.ap-northeast-2.compute.amazonaws.com:8080/manager/text</url>
 					<server>TomcatServer</server>
 					<path>/${project.build.finalName}</path>
 					<username>admin</username>

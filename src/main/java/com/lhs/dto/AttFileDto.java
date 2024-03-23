@@ -1,6 +1,6 @@
 package com.lhs.dto;
 
-public class FileDto {
+public class AttFileDto {
 	private int fileIdx;
 	private int typeSeq;
 	private int boardSeq;

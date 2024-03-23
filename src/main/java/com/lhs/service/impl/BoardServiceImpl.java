@@ -14,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.lhs.dao.AttFileDao;
 import com.lhs.dao.BoardDao;
 import com.lhs.dto.BoardDto;
-import com.lhs.dto.FileDto;
+import com.lhs.dto.AttFileDto;
 import com.lhs.service.BoardService;
 import com.lhs.util.FileUtil;
 
@@ -66,7 +66,7 @@ public class BoardServiceImpl implements BoardService {
 	        
 	        // 파일의 원본 이름, 가짜 파일 이름, 크기, 유형을 HashMap에 저장합니다.
 	        boardAttach.put("fileName", mFile.getOriginalFilename());
-	        boardAttach.put("fakeFilename", UUID.randomUUID().toString().replaceAll("-", ""));
+	        boardAttach.put("fakeFileName", UUID.randomUUID().toString().replaceAll("-", ""));
 	        boardAttach.put("fileSize", mFile.getSize());
 	        boardAttach.put("fileType", mFile.getContentType());
 	        
@@ -76,7 +76,7 @@ public class BoardServiceImpl implements BoardService {
 	        // 파일을 복사하여 저장하고, 해당 파일 정보를 출력합니다.
 	        try {
 	            // 파일을 지정된 위치에 가짜 파일 이름으로 복사하여 저장합니다.
-	            fileUtil.copyFile(mFile, (String) boardAttach.get("fakeFilename"));
+	            fileUtil.copyFile(mFile, (String) boardAttach.get("fakeFileName"));
 	            // 파일 첨부 정보를 데이터베이스에 등록합니다.
 	            attFileDao.addAttFile(boardAttach);
 	        } catch (IOException e) {
@@ -125,16 +125,17 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public int delete(HashMap<String, Object> params) {
-		System.out.println("deletezzzzzzzzzzzzzzz:" + params); // {boardSeq=12878, typeSeq=2}
-		Object hasFileValue = params.get("hasFile"); // "hasFile" 키에 해당하는 값을 가져옴
-
+	public int delete(BoardDto boarddto) {
+		System.out.println("deletezzzzzzzzzzzzzzz:" + boarddto); // {boardSeq=12878, typeSeq=2}
+//		Object hasFileValue = params.get("hasFile"); // "hasFile" 키에 해당하는 값을 가져옴
+		 String hasFileValue = boarddto.getHasFile(); // "hasFile" 키에 해당하는 값을 가져옴
+		
 		// "hasFile" 키에 해당하는 값이 null이 아니고 "Y"인 경우에만 실행
 		if (hasFileValue != null && hasFileValue.equals("Y")) { // hasFile 키가 매개변수에 존재하는 경우
-			int result = bDao.deleteFile(params); // 파일 처리
+			int result = bDao.deleteFile(boarddto); // 파일 처리
 			System.out.println("result11111111111111 : " + result);
 		}
-		return bDao.delete(params);
+		return bDao.delete(boarddto);
 	}
 
 	@Override
@@ -146,15 +147,27 @@ public class BoardServiceImpl implements BoardService {
 	// 파일의 모든 정보를 가져올때 사용..
 	@Override
 	// 파일 정보를 조회하는 메서드
-	public FileDto getFileInfo(int fileIdx) {// 여기서 int형으로 fileIdx를 받는 이유는??
+	public AttFileDto getFileInfo(int fileIdx) {// 여기서 int형으로 fileIdx를 받는 이유는??
 		// 파일 정보를 담을 FileDto 객체 생성
-		FileDto filedto = bDao.getFileInfo(fileIdx); // boarddao에 getFileInfo메서드에서 fileIdx를 얻어와서 filedto에 저장한다.
+		AttFileDto filedto = bDao.getFileInfo(fileIdx); // boarddao에 getFileInfo메서드에서 fileIdx를 얻어와서 filedto에 저장한다.
 		return filedto;
 	}
 
 	@Override
-	public ArrayList<FileDto> readFile(BoardDto boardDto) {
+	public ArrayList<AttFileDto> readFile(BoardDto boardDto) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void updateHits(BoardDto read) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		System.out.println("해당 게시물 조회수 올리기 : " + read);
+		// BoaedDto [boardSeq=8186, typeSeq=2, memberId=sinbumjun, memberNick=범그로, title=수정하기2, 
+		//           content=test2, hasFile=, hits=1, createDtm=null, updateDtm=20240308163520]	
+		map.put("boardSeq", read.getBoardSeq());
+		map.put("typeSeq", read.getTypeSeq());
+		
+		bDao.updateHits(map);
 	}
 }

@@ -7,7 +7,7 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.lhs.dto.BoardDto;
-import com.lhs.dto.FileDto;
+import com.lhs.dto.AttFileDto;
 
 public interface BoardService {
 
@@ -30,7 +30,7 @@ public interface BoardService {
 	 * 
 	 * 
 	 */
-	public FileDto getFileInfo(int fileIdx);
+	public AttFileDto getFileInfo(int fileIdx);
 	
 
 	/**
@@ -57,11 +57,14 @@ public interface BoardService {
 	/**
 	 * 글 삭제 delete
 	 * 
-	 * @param params
+	 * @param boarddto
 	 * @return
 	 */
-	public int delete(HashMap<String, Object> params);
+	// boarddto: 삭제할 게시글의 정보를 담고 있는 BoardDto 객체
+	public int delete(BoardDto boarddto);
 
-	public ArrayList<FileDto> readFile(BoardDto boardDto);
+	public ArrayList<AttFileDto> readFile(BoardDto boardDto);
+
+	public void updateHits(BoardDto boardread);
 
 }
