@@ -65,6 +65,6 @@ public interface BoardService {
 
 	public ArrayList<AttFileDto> readFile(BoardDto boardDto);
 
-	public void updateHits(BoardDto boardread);
+	public void updateHits(BoardDto read);
 
 }

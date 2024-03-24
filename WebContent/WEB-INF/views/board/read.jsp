@@ -9,32 +9,27 @@
 <script src="<c:url value='/resources/js/scripts.js'/>"></script>
 
 <script type="text/javascript">
+	
+	$(document).ready(function() {
 
-var ctx = "${pageContext.request.contextPath}";
+						//댓글 작성 버튼 클릭하면
+						$('#btnUpdate').on('click', function() {
+							var frm = document.readForm;
+							var formData = new FormData(frm);
+							// code here
+						});
 
-$(document).ready(function() {
-	var url = ctx + '/board/read.do?page=' + ${page} + '&boardSeq=' + ${boardSeq};
-	history.pushState({}, '', url);
+				//클릭시 삭제하는.
+						$('#btnDelete').on('click', function() {
+						    if (confirm("삭제하시겠습니까?")) {
+						        console.log('read.boardSeq 값 출력:', '${read.boardSeq}');
+						        customAjax('<c:url value="/board/delete.do"/>' + '?boardSeq=' + '${read.boardSeq}', 
+						        		"/board/list.do" + '?page=' + '${ph.page}' + '&pageSize=' + '${ph.pageSize}');
+						    }
+						});
 
-	$('#btnUpdate').on('click', function() {
-		var frm = document.readForm;
-		var formData = new FormData(frm);
-		// code here
-	});
-
-						
-						
-						
-				//클릭시 삭제하는..(일단 파일 업로드부터 하자...)		
-						$('#btnDelete').on('click', function(){      
-						      if(confirm("삭제하시겠습니까?")){
-						         customAjax("<c:url value='/board/delete.do?boardSeq=${boardSeq}' />", "/board/list.do?page=${currentPage}");
-						      }
-						   });
 
 					});//ready
-					
-					
 	function customAjax(url, responseUrl) {
 		var frm = document.updateForm;
 		var formData = new FormData(frm);
@@ -48,8 +43,8 @@ $(document).ready(function() {
 			success : function(result, textStatus, XMLHttpRequest) {
 				var data = $.parseJSON(result);
 
-				console.log('data' + data);
-				console.log('boardSeq' + data.boardSeq);
+				console.log('data2222222222222' + data);
+				console.log('boardSeq11111111111111111' + data.boardSeq);
 
 				alert(data.msg);
 				var boardSeq = data.boardSeq;
@@ -79,12 +74,12 @@ $(document).ready(function() {
 						type="hidden" name="typeSeq" value="PK2" />
 				</form>
 				<!-- post -->
-				<c:if test="${not empty boardread }">
+				<c:if test="${not empty read }">
 					<div class="clearfix mb-80">
 						<div class="border-bottom-1 border-top-1 p-12">
-							<span class="float-right fs-10 mt-10 text-muted">${boardread.createDtm}</span>
+							<span class="float-right fs-10 mt-10 text-muted">${read.createDtm}</span>
 							<center>
-								<strong>${boardread.title}</strong>
+								<strong>${read.title}</strong>
 							</center>
 						</div>
 						<div class="block-review-content">
@@ -95,10 +90,10 @@ $(document).ready(function() {
 											alt="avatar">
 										<!--  <i class="fa fa-user" style="font-size:30px"></i>-->
 									</div>
-									<small class="block">${boardread.memberNick}</small>
+									<small class="block">${read.memberNick}</small>
 									<hr />
 								</div>
-								<p>${boardread.content}</p>
+								<p>${read.content}</p>
 				</c:if>
 				<!-- 컬렉션 형태에서는 (list) items  -->
 
@@ -131,22 +126,24 @@ $(document).ready(function() {
 				</c:forEach>
 
 			</div>
-			
 			<div class="row">
 				<div class="col-md-12 text-right">
-						<c:if test="${not empty boardread }">
+					<c:if test="${ true }">
+						<c:if test="${not empty read }">
 							<a
-								href="javascript:movePage('/board/goToUpdate.do?boardSeq=${boardread.boardSeq}&title=${boardread.title}&content=${boardread.content}&memberNick=${boardread.memberNick }')">
+								href="javascript:movePage('/board/goToUpdate.do?boardSeq=${read.boardSeq}&title=${read.title}&content=${read.content}&memberNick=${read.memberNick }')">
 						</c:if>
 						<button type="button" class="btn btn-primary">
 							<i class="fa fa-pencil"></i> 수정
 						</button>
 						</a>
 
-						<!-- <a href="javascript:movePage('/board/delete.do?boardSeq=${boardInfo.boardSeq}')"> -->
-							
-							<button type="button" class="btn btn-primary" id="btnDelete">삭제</button>
-							
+						<a
+						<!-- 	href="javascript:movePage('/board/delete.do?boardSeq=${boardInfo.boardSeq}')"> -->
+							<button type="button" class="btn btn-primary" id="btnDelete">
+								삭제</button>
+					</c:if>
+
 					<c:choose>
 						<c:when test="${empty currentPage}">
 							<a href="javascript:movePage('/board/list.do')">

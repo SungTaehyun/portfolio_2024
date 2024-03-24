@@ -87,7 +87,8 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 
 	<!-- public int deleteFile(HashMap<String, Object> params); -->
 	<delete id="deleteFile" parameterType="HashMap">
-
+		DELETE FROM S_SungTaehyun.board_attach
+		WHERE board_seq=#{boardSeq} AND type_seq=#{typeSeq};
 	</delete>
 
 

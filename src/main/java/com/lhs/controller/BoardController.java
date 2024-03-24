@@ -37,60 +37,54 @@ public class BoardController {
 	private String typeSeq = "2";
 
 	@RequestMapping("/board/list.do")
-	public ModelAndView golist(BoardDto boardDto, pageDto pagedto) {
-		// 페이지dto 생성
+	public ModelAndView golist(BoardDto boardDto,pageDto pagedto) {
+	    // 페이지dto 생성
 
-		// 1. 현재 페이지 값 확인 및 설정(if-else사용)
-		/// 현재 페이지 값이 없거나 빈 문자열인 경우
-		if (pagedto.getCurrentPage() == 0 || pagedto.getCurrentPage() == null) {
-//	    	pagedto.setStartPage();   // 전달된 현재 페이지 값이 없으면, 시작 게시글 위치를 설정
-			pagedto.setStartPage((pagedto.getCurrentPage() - 1) * 10); // 전달된 현재 페이지 값이 없으면, 시작 게시글 위치를 설정
-			System.out.println("페이지출력값확인 : " + (pagedto.getCurrentPage() - 1) * 10);
-		} else {// 전달된 현재 페이지 값이 있는 경우, 시작 게시글 위치를 설정하고 현재 페이지를 설정
-			pagedto.setStartPage((pagedto.getCurrentPage() - 1) * 10); // 시작 게시글 위치 설정
-			System.out.println("페이지출력값확인2222222222222222222 : " + (pagedto.getCurrentPage() - 1) * 10);
-//	    	 pagedto.setStartPage(1); // 시작 게시글 위치 설정
-		}
+	    // 1. 현재 페이지 값 확인 및 설정(if-else사용)
+	    if (pagedto.getCurrentPage() == null || pagedto.getCurrentPage() == 0) {
+	        pagedto.setCurrentPage(1); // 현재 페이지가 없는 경우 1페이지로 설정
+	    }
+	    pagedto.setStartPage((pagedto.getCurrentPage() - 1) * 10); // 시작 게시글 위치 설정
+	    System.out.println("페이지출력값확인 : " + pagedto.getStartPage());
 
-		// 2. 페이지 크기 설정
-		pagedto.getPageSize();
+	    // 2. 페이지 크기 설정
+	    pagedto.setPageSize(10); // 페이지 크기 설정 (예: 한 페이지에 표시되는 게시물 수)
 
-		// 3. typeseq값 확인 및 설정
-		if (boardDto.getTypeSeq() == null) {
-			boardDto.setTypeSeq(Integer.parseInt(this.typeSeq));// Integer.parseInt을 이용해서 typeSeq을 형변환한다.
-		}
+	    // 3. typeseq값 확인 및 설정
+	    if (boardDto.getTypeSeq() == null) {
+	        boardDto.setTypeSeq(Integer.parseInt(this.typeSeq)); // Integer.parseInt을 이용해서 typeSeq을 형변환한다.
+	    }
 
-		// 4. 게시물 목록 조회하기
+	    // 4. 게시물 목록 조회하기
+	    HashMap<String, Object> params = new HashMap<>();
+	    params.put("typeSeq", this.typeSeq);
+	    params.put("startPage", pagedto.getStartPage());
+	    params.put("pageSize", pagedto.getPageSize());
+	    ArrayList<BoardDto> key = bService.list(params);
+	    System.out.println("asldkjlaksjd:" + key); // {member_id=jbw02003, hits=37, board_seq=7,...
 
-		HashMap<String, Object> params1 = new HashMap<String, Object>();
-		params1.put("typeSeq", this.typeSeq);
-		params1.put("startPage", pagedto.getStartPage());
-		params1.put("pageSize", pagedto.getPageSize());
-		ArrayList<BoardDto> key = bService.list(params1);
-		System.out.println("asldkjlaksjd:" + key); // {member_id=jbw02003, hits=37, board_seq=7,...
+	    ModelAndView mv = new ModelAndView();
+	    mv.setViewName("board/list");
+	    mv.addObject("key", key);
 
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("board/list");
-		mv.addObject("key", key);
+	    // 5. 페이지 정보 설정(페이지 네비게이션을 구성하기 위해 시작 네비게이션과 최대 네비게이션 값을 설정)
+	    HashMap<String, String> paramsForTotalArticleCnt = new HashMap<>();
+	    paramsForTotalArticleCnt.put("typeSeq", typeSeq);
 
-		// 5. 페이지 정보 설정(페이지 네비게이션을 구성하기 위해 시작 네비게이션과 최대 네비게이션 값을 설정)
-		HashMap<String, String> params = new HashMap<String, String>();
-		params.put("typeSeq", typeSeq);
+	    int totalArticleCnt = bService.getTotalArticleCnt(paramsForTotalArticleCnt);
+	    pagedto.setTotalPage((totalArticleCnt + pagedto.getPageSize() - 1) / pagedto.getPageSize()); // 전체 페이지 수 설정
 
-		pagedto.setTotalPage(bService.getTotalArticleCnt(params)); // pageDto객체의 getTotalArticleCnt메서드를 사용해서 전체 게시물 수를
-																	// 설정
-		pagedto.setStartNavi(pagedto.getCurrentPage() - 1 / pagedto.getPageNaviSize() * pagedto.getPageNaviSize() + 1);// 시작
-																														
-		pagedto.setEndNavi(pagedto.getStartNavi() + 9); // 최대 네비게이션 설정하기(최대 네비는 전체 페이지 수를 기준으로 표시할 페이지 네비의 최대 값이다.예를 들어,
-														// 전체 페이지 수가 23이고 페이지 네비게이션의 크기가 5이면 최대 네비게이션은 5가 됨.)
-		// 디버깅을 위해 list view로 전달되는 내용 출력
+	    int pageNaviSize = pagedto.getPageNaviSize();
+	    pagedto.setStartNavi((pagedto.getCurrentPage() - 1) / pageNaviSize * pageNaviSize + 1); // 시작 네비게이션 설정
+	    pagedto.setEndNavi(Math.min(pagedto.getStartNavi() + pageNaviSize - 1, pagedto.getTotalPage())); // 최대 네비게이션 설정
 
-		// 6. 페이지 정보를 모델에 추가하여 뷰로 전달
-		mv.addObject("pagedto", pagedto);
+	    // 6. 페이지 정보를 모델에 추가하여 뷰로 전달
+	    mv.addObject("pagedto", pagedto);
 
-		// 6. 게시물 목록과 페이지 정보를 뷰에 전달하기
-		return mv;
+	    // 7. 게시물 목록과 페이지 정보를 뷰에 전달하기
+	    return mv;
 	}
+
 
 	@RequestMapping("/test.do")
 	public ModelAndView test() {
@@ -169,17 +163,18 @@ public class BoardController {
 		if (boardDto.getTypeSeq() == null) {
 			boardDto.setTypeSeq(Integer.parseInt(this.typeSeq));
 		}
-
-		BoardDto boardread = bService.read(boardDto);
-		System.out.println("dalsfkjaslkdjf:" + boardread);// BoardDto [boardSeq=12, typeSeq=2, memberId=jbw02003,
+		
+		//자유게시판 글 조회
+		BoardDto read = bService.read(boardDto);
+		System.out.println("dalsfkjaslkdjf:" + read);// BoardDto [boardSeq=12, typeSeq=2, memberId=jbw02003,
 															// memberNick=123, title=totam tempore at libero neq
 		
 		// 1. 첨부파일 읽기1 : 해당게시글(typeSeq, board_seq)의 모든첨부파일(다중이니까)
-				List<AttFileDto> attFiles = attFileService.readAttFiles(boardread); // boardSeq=10776, typeSeq=2
+				List<AttFileDto> attFiles = attFileService.readAttFiles(read); // boardSeq=10776, typeSeq=2
 				System.out.println("해당 게시물의 모든 첨부파일 : " + attFiles);
 		
 				// 조회수 +1
-				bService.updateHits(boardread);
+				bService.updateHits(read);
 		
 		// 댓글 리스트 가져오기(댓글 구현부분)
 		////////////////////
@@ -187,8 +182,8 @@ public class BoardController {
 		
 		// 1. 첨부파일 읽기1
 		mv.addObject("attFiles", attFiles);
-		mv.addObject("boardread", boardread);
-		System.out.println("boardread값 출력 하기 :" + boardread);
+		mv.addObject("read", read);
+		System.out.println("read값 출력 하기 :" + read);
 		mv.setViewName("/board/read");
 		return mv;
 	}
@@ -225,7 +220,6 @@ public class BoardController {
 		System.out.println("리스트업데이트                 :" + listupdate); // BoardDto [boardSeq=13, typeSeq=2,
 																		// memberId=jbw02003, memberNick=123,
 																		// title=harum ............
-
 		return mv;
 	}
 
@@ -266,10 +260,13 @@ public class BoardController {
 	    // 받아온 DTO 값 출력
 	    System.out.println("read.jsp에서 받아오는 dto값 : " + boarddto);
 	    
+	    HashMap<String, Object> map = new HashMap<String, Object>();
+	    
 	    // 게시글 유형 시퀀스가 없는 경우 기본 값 설정
 	    if (boarddto.getTypeSeq() == null) {
 	        boarddto.setTypeSeq(Integer.parseInt(this.typeSeq));
 	    }
+//	    boardDto.setTypeSeq(typeSeq);
 	    
 	    // 삭제할 게시글 정보 출력
 	    System.out.println("delete222222222222222:" + boarddto);
@@ -277,21 +274,31 @@ public class BoardController {
 	    // 게시글 삭제 서비스 호출 및 결과 수신
 	    int boardInfo = bService.delete(boarddto);
 	    // 삭제된 게시글 정보 출력
-	    System.out.println("boardinfo1111111111111:" + boardInfo);
+	    System.out.println("게시판 삭제하기!! :" + boardInfo);
+	    
+	    if(boardInfo==1) {
+	    	map.put("nextpage", "/board/list");
+	    	map.put("msg", "게시글 삭제 성공했습니다");
+	    }else {
+	    	map.put("nextpage", "/board/list");
+	    	map.put("msg", "게시글 삭제 실패했습니다");
+	    }
 
-	    return null; // 비동기 요청에 대한 응답으로 일단은 null 반환
+	    return map; // 비동기 요청에 대한 응답으로 일단은 null 반환
 	}
 
 	
 
 	@RequestMapping("/board/deleteAttFile.do")
 	@ResponseBody
-	public HashMap<String, Object> deleteAttFile(@RequestParam HashMap<String, Object> params) {
-
-		if (!params.containsKey("typeSeq")) {
-			params.put("typeSeq", this.typeSeq);
+	public HashMap<String, Object> deleteAttFile(BoardDto boarddto, AttFileDto attFileDto) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		 if (boarddto.getTypeSeq() == null) {
+		        boarddto.setTypeSeq(Integer.parseInt(this.typeSeq));
 		}
-		return null;
+		 System.out.println(boarddto);
+		return map;
 	}
 
 }

@@ -126,17 +126,17 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public int delete(BoardDto boarddto) {
-		System.out.println("deletezzzzzzzzzzzzzzz:" + boarddto); // {boardSeq=12878, typeSeq=2}
-//		Object hasFileValue = params.get("hasFile"); // "hasFile" 키에 해당하는 값을 가져옴
-		 String hasFileValue = boarddto.getHasFile(); // "hasFile" 키에 해당하는 값을 가져옴
-		
-		// "hasFile" 키에 해당하는 값이 null이 아니고 "Y"인 경우에만 실행
-		if (hasFileValue != null && hasFileValue.equals("Y")) { // hasFile 키가 매개변수에 존재하는 경우
-			int result = bDao.deleteFile(boarddto); // 파일 처리
-			System.out.println("result11111111111111 : " + result);
-		}
-		return bDao.delete(boarddto);
+	    System.out.println("deletezzzzzzzzzzzzzzz:" + boarddto); // {boardSeq=12878, typeSeq=2}
+	    String hasFileValue = boarddto.getHasFile(); // "hasFile" 키에 해당하는 값을 가져옴
+
+	    // "hasFile" 키에 해당하는 값이 null이 아니고 "Y"인 경우에만 실행
+	    if (hasFileValue != null && hasFileValue.equals("Y")) { // hasFile 키가 매개변수에 존재하는 경우
+	        int result = bDao.deleteFile(boarddto); // 파일 처리
+	        System.out.println("result11111111111111 : " + result);
+	    }
+	    return bDao.delete(boarddto);
 	}
+
 
 	@Override
 	public boolean deleteAttFile(HashMap<String, Object> params) {
