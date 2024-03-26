@@ -6,8 +6,9 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import com.lhs.dto.BoardDto;
 import com.lhs.dto.AttFileDto;
+import com.lhs.dto.BoardDto;
+import com.lhs.dto.pageDto;
 
 public interface BoardService {
 
@@ -66,5 +67,10 @@ public interface BoardService {
 	public ArrayList<AttFileDto> readFile(BoardDto boardDto);
 
 	public void updateHits(BoardDto read);
-
+	
+	// 검색기능
+	public List<BoardDto> searchSelectPage(pageDto pageDto);
+	
+	//검색 후 페이징 
+	public int searchResultCnt(pageDto pageDto);
 }

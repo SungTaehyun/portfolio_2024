@@ -19,6 +19,7 @@ import org.springframework.web.util.UriUtils;
 
 import com.lhs.dto.AttFileDto;
 import com.lhs.dto.BoardDto;
+import com.lhs.dto.SearchCondition;
 import com.lhs.dto.pageDto;
 import com.lhs.service.AttFileService;
 import com.lhs.service.BoardService;
@@ -37,7 +38,7 @@ public class BoardController {
 	private String typeSeq = "2";
 
 	@RequestMapping("/board/list.do")
-	public ModelAndView golist(BoardDto boardDto,pageDto pagedto) {
+	public ModelAndView golist(BoardDto boardDto, pageDto pagedto) {
 	    // 페이지dto 생성
 
 	    // 1. 현재 페이지 값 확인 및 설정(if-else사용)
@@ -55,35 +56,36 @@ public class BoardController {
 	        boardDto.setTypeSeq(Integer.parseInt(this.typeSeq)); // Integer.parseInt을 이용해서 typeSeq을 형변환한다.
 	    }
 
-	    // 4. 게시물 목록 조회하기
+	    // 4. 검색 조건 설정
+	    if (pagedto.getKeyword() != null && !pagedto.getKeyword().isEmpty()) {
+	        // 검색어가 존재하는 경우
+	        // 이 부분에서 검색 조건에 따른 boardDto 설정 필요
+	    }
+
+	    // 5. 게시물 목록 조회하기
 	    HashMap<String, Object> params = new HashMap<>();
 	    params.put("typeSeq", this.typeSeq);
 	    params.put("startPage", pagedto.getStartPage());
 	    params.put("pageSize", pagedto.getPageSize());
+
+	    // 검색 기능이 있는 경우 검색 조건을 params에 추가
+
 	    ArrayList<BoardDto> key = bService.list(params);
 	    System.out.println("asldkjlaksjd:" + key); // {member_id=jbw02003, hits=37, board_seq=7,...
 
-	    ModelAndView mv = new ModelAndView();
-	    mv.setViewName("board/list");
-	    mv.addObject("key", key);
+	    // 6. ModelAndView 객체 생성 및 뷰 이름 설정
+	    ModelAndView mv = new ModelAndView("board/list");
 
-	    // 5. 페이지 정보 설정(페이지 네비게이션을 구성하기 위해 시작 네비게이션과 최대 네비게이션 값을 설정)
-	    HashMap<String, String> paramsForTotalArticleCnt = new HashMap<>();
-	    paramsForTotalArticleCnt.put("typeSeq", typeSeq);
+	    // 7. 게시물 목록과 페이지 정보를 모델에 추가
+	    mv.addObject("key", key); // 게시물 목록 추가
+	    mv.addObject("pagedto", pagedto); // 페이지 정보 추가
 
-	    int totalArticleCnt = bService.getTotalArticleCnt(paramsForTotalArticleCnt);
-	    pagedto.setTotalPage((totalArticleCnt + pagedto.getPageSize() - 1) / pagedto.getPageSize()); // 전체 페이지 수 설정
-
-	    int pageNaviSize = pagedto.getPageNaviSize();
-	    pagedto.setStartNavi((pagedto.getCurrentPage() - 1) / pageNaviSize * pageNaviSize + 1); // 시작 네비게이션 설정
-	    pagedto.setEndNavi(Math.min(pagedto.getStartNavi() + pageNaviSize - 1, pagedto.getTotalPage())); // 최대 네비게이션 설정
-
-	    // 6. 페이지 정보를 모델에 추가하여 뷰로 전달
-	    mv.addObject("pagedto", pagedto);
-
-	    // 7. 게시물 목록과 페이지 정보를 뷰에 전달하기
+	    // 8. ModelAndView 객체 반환
 	    return mv;
 	}
+
+
+
 
 
 	@RequestMapping("/test.do")

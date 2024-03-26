@@ -13,8 +13,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.lhs.dao.AttFileDao;
 import com.lhs.dao.BoardDao;
-import com.lhs.dto.BoardDto;
 import com.lhs.dto.AttFileDto;
+import com.lhs.dto.BoardDto;
+import com.lhs.dto.SearchCondition;
+import com.lhs.dto.pageDto;
 import com.lhs.service.BoardService;
 import com.lhs.util.FileUtil;
 
@@ -170,4 +172,14 @@ public class BoardServiceImpl implements BoardService {
 		
 		bDao.updateHits(map);
 	}
+	
+	public List<BoardDto> searchSelectPage(pageDto pageDto){
+		return bDao.searchSelectPage(pageDto);
+	}
+	
+	// 검색 후 페이징 : <select id="searchResyltCnt" parameterType="SearchCondition" resultType="int">
+	public int searchResultCnt(pageDto pageDto){
+		return bDao.searchResultCnt(pageDto);
+	}
+
 }

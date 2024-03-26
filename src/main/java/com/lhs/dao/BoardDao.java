@@ -2,9 +2,12 @@ package com.lhs.dao;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
-import com.lhs.dto.BoardDto;
 import com.lhs.dto.AttFileDto;
+import com.lhs.dto.BoardDto;
+import com.lhs.dto.SearchCondition;
+import com.lhs.dto.pageDto;
 
 public interface BoardDao {
 	/**
@@ -71,6 +74,18 @@ public interface BoardDao {
 	
 	public int updateHasFile(HashMap<String, Object> updateParams);
 
+	
 	public void updateHits(HashMap<String, Object> map);
+	
+	
+	
+	// 검색기능 : <select id="searchSelectPage" parameterType="SearchCondition" resultType="boardDto">
+	public List<BoardDto> searchSelectPage(pageDto pageDto);
+		
+	
+	
+	// 검색 후 페이징 : <select id="searchResyltCnt" parameterType="SearchCondition" resultType="int">
+	public int searchResultCnt(pageDto pageDto);
+	
 
 }
