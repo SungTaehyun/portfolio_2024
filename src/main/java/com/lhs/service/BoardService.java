@@ -68,9 +68,10 @@ public interface BoardService {
 
 	public void updateHits(BoardDto read);
 	
-	// 검색기능
-	public List<BoardDto> searchSelectPage(pageDto pageDto);
-	
 	//검색 후 페이징 
 	public int searchResultCnt(pageDto pageDto);
+
+	// 검색기능
+	public List<BoardDto> searchSelectPage(HashMap<String, Object> params);
+
 }

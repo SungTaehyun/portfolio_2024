@@ -24,7 +24,7 @@ public class FileController {
 
 		File file;
 		try {
-			file = context.getResource("classpath:files/portfolio_ERD.mwb").getFile();
+			file = context.getResource("classpath:files/SungTaeHyun_erd.mwb").getFile();
 
 			rep.setHeader("Content-Disposition", "attachment; filename=\""+file.getName()+"\"");
 			rep.setHeader("Prama", "no-cache");

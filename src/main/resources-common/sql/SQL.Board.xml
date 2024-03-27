@@ -19,26 +19,29 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 
 	</select>
 	
-	<select id="searchSelectPage" parameterType="com.lhs.dto.pageDto" resultType="com.lhs.dto.BoardDto">
-    SELECT board_seq, type_seq, member_id, member_nick, title, content,
-    has_file, hits, create_dtm, update_dtm
-    FROM S_SungTaehyun.board
-    WHERE column_name LIKE concat('%', #{keyword}, '%')
-    ORDER BY reg_date DESC, bno DESC
-    LIMIT #{startPage}, #{pageSize};
-</select>
-	
+	<select id="searchSelectPage"
+		parameterType="HashMap" resultType="com.lhs.dto.BoardDto">
+		SELECT board_seq, type_seq, member_id, member_nick, title, content,
+		has_file, hits, create_dtm, update_dtm
+		FROM S_SungTaehyun.board
+		WHERE title LIKE concat('%', #{keyword}, '%')
+		ORDER BY board_seq desc
+		LIMIT #{startPage}, #{pageSize};
+	</select>
+
+
 	<select id="searchResultCnt" parameterType="com.lhs.dto.pageDto" resultType="int">
-    SELECT count(*)
-    FROM S_SungTaehyun.board
-    WHERE column_name LIKE concat('%', #{keyword}, '%');
-</select>
+		SELECT COUNT(*)
+		FROM S_SungTaehyun.board
+		WHERE title LIKE concat('%', #{keyword}, '%');
+	</select>
 	
+	<!-- public FileDto getFileInfo(int fileIdx, int boardSeq); -->
 	<select id="getFileInfo" parameterType="int" resultType="com.lhs.dto.AttFileDto">
-    SELECT file_idx, type_seq, board_seq, file_name, fake_filename, file_size, file_type, save_loc, create_dtm
-    FROM S_SungTaehyun.board_attach
-    WHERE file_idx = #{fileIdx};
-</select>
+		SELECT file_idx, type_seq, board_seq, file_name, fake_filename, file_size, file_type, save_loc, create_dtm
+		FROM S_SungTaehyun.board_attach
+		WHERE file_idx = #{fildIdx};
+	</select>
 
 
 	<!-- 총 게시물 수 -->

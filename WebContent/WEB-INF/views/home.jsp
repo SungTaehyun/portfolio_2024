@@ -78,13 +78,13 @@
 								<br/>
 								<span style="font-size:20px;font-weight:400;line-height: 30px">
 								<ul>
-									<li>Spring Framework 4.3.14.RELEASE / myBatis 3.4.1 / jUnit 4.12</li>
-									<li>jQuery 3.2.1/ jQuery UI 1.12.1/ jqGrid 4.4.3 / Maven / log 4.12 </li>
+									<li>Spring Framework 5.3.32 / myBatis 3.5.15 / jUnit 5.10.2</li>
+									<li>jQuery 3.2.1/ jQuery UI 1.12.1/ jqGrid 4.4.3 / Maven / log 1.2.17 </li>
 									<br/>
 									<li>Languages : JAVA, JSP, JavaScript</li>
 									<li>Server : AWS t2.micro free tier</li>
-									<li>DBMS : MySql 5.7</li>
-									<li>WAS : Tomcat 8.5</li>
+									<li>DBMS : MySql 8.3.0</li>
+									<li>WAS : Tomcat 9</li>
 									
 								</ul>
 								</span>
@@ -126,7 +126,7 @@
 								data-endspeed="500"
 								data-endeasing="Power4.easeIn">
 								portfolio 시작 2024.02.16,<br/>
-								꾸준히 노력하는 개발자.<br/>
+								노력하는 개발자.<br/>
 								<span style="font-size:24px;font-weight:400;">&ndash; SungTaeHyun</span>
 							</div>
 

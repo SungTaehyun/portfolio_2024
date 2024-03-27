@@ -197,7 +197,7 @@
 									data-endelementdelay="0.1"
 									data-endspeed="1000"
 									data-endeasing="Power4.easeIn" style="z-index: 10;">
-									PORTFOLIO 24.02.16 ~ 24.03.24
+									PORTFOLIO 24.02.16 ~ 24.03.30
 								</div>
 	
 								<div class="tp-caption customin ltl tp-resizeme small_light_white font-lato"
@@ -217,13 +217,13 @@
 									<br/>
 									<span style="font-size:20px;font-weight:400;line-height: 30px">
 									<ul>
-										<li>Spring Framework 5.3.32 / myBatis 3.4.1 / jUnit 4.12</li>
-										<li>jQuery 3.2.1/ jQuery UI 1.12.1/ jqGrid 4.4.3 / Maven / log 4.12 </li>
-										<br/>
-										<li>Languages : JAVA, JSP, JavaScript</li>
-										<li>Server : AWS t2.micro free tier</li>
-										<li>DBMS : MySql 5.7</li>
-										<li>WAS : Tomcat 8.5</li>
+										<li>Spring Framework 5.3.32 / myBatis 3.5.15 / jUnit 5.10.2</li>
+									<li>jQuery 3.2.1/ jQuery UI 1.12.1/ jqGrid 4.4.3 / Maven / log 1.2.17 </li>
+									<br/>
+									<li>Languages : JAVA, JSP, JavaScript</li>
+									<li>Server : AWS t2.micro free tier</li>
+									<li>DBMS : MySql 8.3.0</li>
+									<li>WAS : Tomcat 9</li>
 									</ul>
 									</span>								
 								</div>
@@ -283,13 +283,13 @@
 							<ul class="list-unstyled">
 								<li class="footer-sprite address">
 									주소<br>
-									zip code ~~~<br>
+									서울시 동작구 대방동<br>
 								</li>
 								<li class="footer-sprite phone">
-									010-cccc-3333
+									010-7140-1838
 								</li>
 								<li class="footer-sprite email">
-									<a href="mailto:#">your_email</a>
+									<a href="mailto:#">jbw02003@naver.com</a>
 								</li>
 							</ul>
 						</address>
@@ -311,8 +311,8 @@
 					
 					<h4 class="letter-spacing-1">THANKS FOR VISITING</h4>
 					<p>제가 구현한 스프링 게시판의 주요기능 확인을 위해 회원가입을 해주세요. :) <br/>
-					이 게시판은 관리자 / 일반 모드를 구분하여 구현하였으며 회원가입시 일반회원 모드로 가입됩니다.<br/>
-					* 임의의 관리자 계정으로 로그인:  <h3> ID: admin123 / PW: admin12# </h3>
+					구현 목록 : 로그인/회원가입, 파일 업로드 및 다운로드, 게시판 CRUD, 메일 발송, 이메일 인증, 댓글 기능, 검색 기능 구현<br/>
+					</h3>
 					</div>
 						
 					<div id="sidepanel" class="sidepanel-light">

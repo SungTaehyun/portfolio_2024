@@ -22,9 +22,9 @@
 	height:350px;">
 								<div class="box-icon-title">
 									<i class="b-0 fa fa-tablet"></i>
-									<h2>Fully Reposnive</h2>
+									<h2> DB 모델링 및 설계 </h2>
 								</div>
-								<p>Nullam id dolor id nibh ultricies vehicula ut id elit. Integer posuere erat a ante venenatis dapibus posuere</p>
+								<p></p>
 							
 								<button type="button" class="btn btn-default btn-lg lightbox" data-toggle="modal" data-target="#myModal">
 								DB &nbsp; Modeling &nbsp; &nbsp;(IMG)
@@ -45,9 +45,14 @@
 							<div class="box-icon box-icon-center box-icon-round box-icon-transparent box-icon-large box-icon-content">
 								<div class="box-icon-title">
 									<i class="b-0 fa fa-random"></i>
-									<h2>Clean Design</h2>
+									<h2><a href='https://www.notion.so/5907154ababe4eb591b383cf4a19437f' target='_blank'>Notion</a></h2>
 								</div>
-								<p>nteger posuere erat a ante venenatis dapibus posuere</p>
+								<p>
+									<a href='https://www.notion.so/2d0f8130a49946f8a3d2003078d72f4d' target='_blank'>프로젝트 기록</a><br/>
+								<a href='https://www.notion.so/0b399f4fabf048da964d501bc50fa5c4' target='_blank'>오류해결</a><br/>
+									<a href='https://www.notion.so/java-spring-818cc073c5fb4d568f82858fdbb932a1' target='_blank'>java-스프링 학습</a><br/>
+									<a href='https://www.notion.so/AWS-6e92905815d9438da01ecfc6bb879d24' target='_blank'>AWS 정리</a><br/>
+								</p>
 							</div>
 
 						</div>
@@ -57,9 +62,13 @@
 							<div class="box-icon box-icon-center box-icon-round box-icon-transparent box-icon-large box-icon-content">
 								<div class="box-icon-title">
 									<i class="b-0 fa fa-tint"></i>
-									<h2>Reusable Elements</h2>
+									<h2>개인프로젝트</h2>
 								</div>
-								<p>Nullam id dolor id nibh ultricies vehicula ut id elit. Integer posuere erat a ante venenatis dapibus posuere</p>
+								<p>
+								<a href='https://www.notion.so/AWS-6e92905815d9438daecfd24' target='_blank'>개인프로젝트</a><br/>
+								<a href='https://www.notion.so/AWS-6e92905815d9438da6bbd24' target='_blank'>미작성</a><br/>
+								<a href='https://www.notion.so/AWS-6e92905815d9438' target='_blank'>미작성</a><br/>
+								</p>
 							</div>
 
 						</div>
@@ -69,9 +78,9 @@
 							<div class="box-icon box-icon-center box-icon-round box-icon-transparent box-icon-large box-icon-content">
 								<div class="box-icon-title">
 									<i class="b-0 fa fa-cogs"></i>
-									<h2>Multipurpose</h2>
+									<h2><a href='https://github.com/SungTaehyun' target='_blank'>GitHub</a></h2>
 								</div>
-								<p>Nullam id dolor id nibh ultricies vehicula ut id elit. Integer posuere erat a ante venenatis dapibus posuere</p>
+								<p><a href='https://github.com/SungTaehyun' target='_blank'>GitHub 링크</a></p>
 							</div>
 
 						</div>
@@ -96,7 +105,7 @@
 								<!-- Modal Body -->
 								<div class="modal-body">
 
-									<img id="erdImg" width="100%" src="<c:url value='/resources/portfolio_ERD.png'/>"/>
+									<img id="erdImg" width="100%" src="<c:url value='/resources/SungTaeHyun_erd.png'/>"/>
 
 								<!-- Modal Footer -->
 								<div class="modal-footer">
