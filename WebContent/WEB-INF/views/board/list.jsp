@@ -25,7 +25,38 @@
 $(document).ready(function(){	
 	
 	// 검색 버튼 클릭 이벤트 처리
-	
+	$('#searchButton').on('click', function(event){  
+        event.preventDefault(); // 폼의 기본 동작 막기
+	    
+	    // 검색 옵션과 검색어 가져오기
+	    var option = $('.search-option').val();
+	    var keyword = $('.search-input').val();
+	    
+	    // AJAX 호출을 통해 데이터를 검색
+	    customAjax('<c:url value="/board/list.do"/>', 
+	    		"/board/list.do?currentPage=${pagedto.currentPage}&pageSize=${pagedto.pageSize}&option=" + option + "&keyword=" + encodeURIComponent(keyword));
+	});
+	   
+	function customAjax(url, responseUrl) {
+	    var formData = $('#searchForm').serialize(); // 폼 데이터를 직렬화하여 가져옴
+	    $.ajax({
+	        url : url, // 변경: '?' + formData 삭제
+	        data : formData, // 변경: URL에 직렬화한 데이터를 추가하지 않고 data 속성에 추가
+	        type : 'POST', // 변경: GET 방식에서 POST 방식으로 변경
+	        dataType : "text", // 반환되는 데이터 타입이 텍스트임을 명시
+	        processData : false,
+            contentType : false,
+	        success : function (result, textStatus, XMLHttpRequest) {
+	            console.log("result내용 : " + result);
+	            console.log("textStatus내용 : " + textStatus);
+	            console.log("XMLHttpRequest내용 : " + XMLHttpRequest);
+	            movePage(responseUrl); // 성공하면 게시판으로
+	        },
+	        error : function (XMLHttpRequest, textStatus, errorThrown) {
+	            alert("에러 발생\n관리자에게 문의바랍니다.");
+	            console.log("에러\n" + XMLHttpRequest.responseText);
+	        }
+	    });
 	}  
 });
 </script>
@@ -45,7 +76,7 @@ $(document).ready(function(){
 	            <!-- 제목+글쓴이 옵션 -->
 	            <option value="A" ${pagedto.option == 'A' || !pagedto.option ? "selected" : ""} style="background-color: #f0f0f0;">제목+내용</option>
 	            <!-- 조회수 이상 옵션 -->
-	            <option value="T" ${pagedto.option == 'T' ? "selected" : ""} style="background-color: #f5f5f5;">작성자</option>
+	            <option value="T" ${pagedto.option == 'T' ? "selected" : ""} style="background-color: #f5f5f5;">글쓴이</option>
 	        </select>
 
 	        <!-- 검색어 입력을 위한 텍스트 입력 상자 -->

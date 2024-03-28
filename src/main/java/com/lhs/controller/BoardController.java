@@ -58,7 +58,28 @@ public class BoardController {
 	    if (keyword != null && !keyword.isEmpty()) {
 	    	 System.out.println("키워드가 존재합니다.");
 	        // 키워드가 존재하는 경우 검색 기능 수행
-	 
+	        HashMap<String, Object> params = new HashMap<>();
+	        params.put("typeSeq", this.typeSeq); // 게시글 유형 시퀀스 설정
+	        params.put("keyword", keyword); // 검색 키워드 설정
+	        params.put("startPage", pagedto.getStartPage()); // 페이지 시작 위치 설정
+	        params.put("pageSize", pagedto.getPageSize()); // 페이지 크기 설정
+	        key = bService.searchSelectPage(params); // 검색된 결과를 key에 할당
+	        System.out.println("검색 결과(key): " + key); // 검색 결과를 로그에 출력
+	    } else {
+	    	System.out.println("키워드가 존재하지 않습니다.");
+	        // 키워드가 존재하지 않는 경우 기존 목록 조회
+	        HashMap<String, Object> params = new HashMap<>();
+	        params.put("typeSeq", this.typeSeq); // 게시글 유형 시퀀스 설정
+	        params.put("startPage", pagedto.getStartPage()); // 페이지 시작 위치 설정
+	        params.put("pageSize", pagedto.getPageSize()); // 페이지 크기 설정
+	        key = bService.list(params); // 목록 조회 결과를 key에 할당
+	        System.out.println("기존 목록 조회 결과(key): " + key); // 조회 결과를 로그에 출력
+	    }
+
+	    // ModelAndView 객체 생성
+	    ModelAndView mv = new ModelAndView();
+	    mv.setViewName("board/list"); // 뷰 이름 설정
+	    mv.addObject("key", key); // "key"라는 이름으로 key 객체를 전달
 
 	    // 페이지 정보 설정(페이지 네비게이션을 구성하기 위해 시작 네비게이션과 최대 네비게이션 값을 설정)
 	    HashMap<String, String> paramsForTotalArticleCnt = new HashMap<>();

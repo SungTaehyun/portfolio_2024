@@ -41,7 +41,7 @@
 								data-endelementdelay="0.1"
 								data-endspeed="1000"
 								data-endeasing="Power4.easeIn" style="z-index: 10; font-size:20px;">
-								<span class="fw-300"> 잘 오셨습니다.
+								<span class="fw-300"> 감사합니다.
 								<b style="font-size:20px">아무개</b>의 포트폴리오 사이트 입니다. :) </span>
 							</div>
 

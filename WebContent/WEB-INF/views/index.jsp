@@ -180,8 +180,8 @@
 									data-endelementdelay="0.1"
 									data-endspeed="1000"
 									data-endeasing="Power4.easeIn" style="z-index: 10; font-size:20px;">
-									<span class="fw-300"> 잘 오셨습니다.
-									<b style="font-size:20px">성태현</b>의 포트폴리오 사이트 입니다. :) </span>
+									<span class="fw-300">개인프로젝트 
+									<b style="font-size:20px">24.02.15</b>~~~~~~~~?? </span>
 								</div>
 	
 								<div class="tp-caption customin ltl tp-resizeme large_bold_white"
@@ -197,7 +197,7 @@
 									data-endelementdelay="0.1"
 									data-endspeed="1000"
 									data-endeasing="Power4.easeIn" style="z-index: 10;">
-									PORTFOLIO 24.02.16 ~ 24.03.30
+									감사합니다. 성태현의 포트폴리오 사이트입니다.
 								</div>
 	
 								<div class="tp-caption customin ltl tp-resizeme small_light_white font-lato"
@@ -262,7 +262,7 @@
 									data-endspeed="500"
 									data-endeasing="Power4.easeIn">
 									<br/>
-								꾸준히 노력하는 개발자.<br/>
+								빡세게 보다는 꾸준하게<br/>
 									<span style="font-size:24px;font-weight:400;">&ndash; SungTaeHyun</span>
 								</div>
 							</li>
