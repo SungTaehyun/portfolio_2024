@@ -24,8 +24,17 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		SELECT board_seq, type_seq, member_id, member_nick, title, content,
 		has_file, hits, create_dtm, update_dtm
 		FROM S_SungTaehyun.board
-		WHERE title LIKE concat('%', #{keyword}, '%')
-		AND type_seq=2
+		WHERE type_seq = #{typeSeq}
+		<choose>
+			<when test='option=="T"'>
+				AND member_nick LIKE concat('%', #{keyword}, '%')
+			</when>
+			<when test='option=="A"'>
+				AND (title LIKE concat('%', #{keyword}, '%') OR content LIKE concat('%', #{keyword}, '%'))
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
 		ORDER BY board_seq desc
 		LIMIT #{startPage}, #{pageSize};
 	</select>

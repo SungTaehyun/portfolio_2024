@@ -73,5 +73,6 @@ public interface BoardService {
 
 	// 검색기능
 	public List<BoardDto> searchSelectPage(HashMap<String, Object> params);
+	
 
 }

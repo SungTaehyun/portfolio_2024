@@ -1,19 +1,19 @@
 package com.lhs.dto;
 
 public class pageDto {
-	private Integer pageSize = 10; // 한 페이지의 크기
-	private Integer pageNaviSize = 10;//페이지 네비게이션
-	private Integer currentPage = 1; // 현재페이지
-	
-	private Integer offset = 0;
-	private String keyword = "";
-	private String option ="";
-	
-	private Integer startNavi ;// 네비게이션 시작 페이지
-	private Integer totalPage;// 전체 페이지의 갯수
-	private Integer endNavi; // 네비게이션의 마지막 페이지 
-	private Integer startPage;
-	
+    private Integer pageSize = 10; // 한 페이지의 크기
+    private Integer pageNaviSize = 10; // 페이지 네비게이션 크기
+    private Integer currentPage = 1; // 현재 페이지
+
+    private Integer offset = 0; // 데이터베이스 쿼리에서 사용될 오프셋 값
+    private String keyword = ""; // 검색에 사용될 키워드
+    private String option = ""; // 옵션 (검색 옵션을 의미하는 것)
+
+    private Integer startNavi; // 네비게이션 시작 페이지
+    private Integer totalPage; // 전체 페이지 수
+    private Integer endNavi; // 네비게이션의 마지막 페이지
+    private Integer startPage; // 시작 페이지
+
 	public pageDto() {} 
 	
 	public Integer getOffset() {

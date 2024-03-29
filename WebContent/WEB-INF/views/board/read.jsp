@@ -24,7 +24,7 @@
 						    if (confirm("삭제하시겠습니까?")) {
 						        console.log('read.boardSeq 값 출력:', '${read.boardSeq}');
 						        customAjax('<c:url value="/board/delete.do"/>' + '?boardSeq=' + '${read.boardSeq}', 
-						        		"/board/list.do" + '?page=' + '${ph.page}' + '&pageSize=' + '${ph.pageSize}');
+						        		"/board/list.do" + '?currentPage=' + '${pagedto.currentPage}' + '&pageSize=' + '${pagedto.pageSize}');
 						    }
 						});
 
@@ -145,16 +145,16 @@
 					</c:if>
 
 					<c:choose>
-						<c:when test="${empty currentPage}">
+						<c:when test="${empty pagedto.currentPage}">
 							<a href="javascript:movePage('/board/list.do')">
 								<button type="button" class="btn btn-primary">목록</button>
 							</a>
 						</c:when>
 						<c:otherwise>
-							<a href="javascript:movePage('/board/list.do?page=currentPage')">
-								<button type="button" class="btn btn-primary">목록</button>
-							</a>
-						</c:otherwise>
+				        			<a href="javascript:movePage('/board/list.do?currentPage=${pagedto.currentPage}&pageSize=${pagedto.pageSize}&option=${pagedto.option}&keyword=${pagedto.keyword}&boardSeq=${read.boardSeq}&typeSeq=${read.typeSeq}')">
+								        <button type="button" class="btn btn-primary">목록</button>
+							   		</a>
+				        		</c:otherwise>
 					</c:choose>
 				</div>
 			</div>

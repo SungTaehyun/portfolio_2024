@@ -48,7 +48,7 @@ $(document).ready(function(){
             contentType : false,
 	        success : function (result, textStatus, XMLHttpRequest) {
 	            console.log("result내용 : " + result);
-	            console.log("textStatus내용 : " + textStatus);
+	            console.log("textStatus내용 : " + textStatus);//textStatus내용 : success
 	            console.log("XMLHttpRequest내용 : " + XMLHttpRequest);
 	            movePage(responseUrl); // 성공하면 게시판으로
 	        },
@@ -74,13 +74,13 @@ $(document).ready(function(){
 	        <!-- 검색 옵션 선택을 위한 셀렉트 박스 -->
 	        <select class="search-option" name="option">
 	            <!-- 제목+글쓴이 옵션 -->
-	            <option value="A" ${pagedto.option == 'A' || !pagedto.option ? "selected" : ""} style="background-color: #f0f0f0;">제목+내용</option>
-	            <!-- 조회수 이상 옵션 -->
+	            <option value="A" ${pagedto.option == 'A' || pagedto.option=='' ? "selected" : ""} style="background-color: #f0f0f0;">제목+내용</option>
+	            <!-- 내용 옵션 -->
 	            <option value="T" ${pagedto.option == 'T' ? "selected" : ""} style="background-color: #f5f5f5;">글쓴이</option>
 	        </select>
 
 	        <!-- 검색어 입력을 위한 텍스트 입력 상자 -->
-	        <input type="text" name="keyword" class="search-input" value="${pagedto.keyword}" placeholder="" style="background-color: #f5f5f5;">
+	          <input type="text" name="keyword" class="search-input" type="text" value="${pagedto.keyword}" placeholder="검색어를 입력해주세요">
 	        
 	        <!-- 검색 버튼 -->
 	        <input type="button" id="searchButton" class="search-button" value="검색" style="background-color: #007bff; color: #fff;">
@@ -120,7 +120,7 @@ $(document).ready(function(){
 						<tr>
 							<td align="center">${board.boardSeq}</td>
 							<td><span class="bold"> <a
-									href="javascript:movePage('/board/read.do?boardSeq=${board.boardSeq}&currentPage=currentPage')">
+									href="javascript:movePage('/board/read.do?boardSeq=${board.boardSeq}&currentPage=${pagedto.currentPage}&pageSize=${pagedto.pageSize}&option=${pagedto.option}&keyword=${pagedto.keyword}')">
 										${board.title} </a>
 							</span></td>
 

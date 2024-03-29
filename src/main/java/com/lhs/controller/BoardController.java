@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -40,6 +39,8 @@ public class BoardController {
 	@RequestMapping("/board/list.do")
 	public ModelAndView list(BoardDto boardDto, pageDto pagedto, @RequestParam(required = false) String keyword) {
 		System.out.println("keyword값 들어오는지 확인 : " + keyword);
+		System.out.println("pagedto값 들어오는지 확인 : " + pagedto);//pagedto값 들어오는지 확인 : pageDto [pageSize=10, pageNaviSize=10, offset=0, keyword=, option=, startNavi=null, totalPage=null, currentPage=1, endNavi=null, startPage=null]
+		
 	    // 페이지dto 생성
 	    if (pagedto.getCurrentPage() == null || pagedto.getCurrentPage() == 0) {
 	        pagedto.setCurrentPage(1); // 현재 페이지가 없는 경우 1페이지로 설정
@@ -61,6 +62,7 @@ public class BoardController {
 	        HashMap<String, Object> params = new HashMap<>();
 	        params.put("typeSeq", this.typeSeq); // 게시글 유형 시퀀스 설정
 	        params.put("keyword", keyword); // 검색 키워드 설정
+	        params.put("option", pagedto.getOption()); // dhqtus 키워드 설정
 	        params.put("startPage", pagedto.getStartPage()); // 페이지 시작 위치 설정
 	        params.put("pageSize", pagedto.getPageSize()); // 페이지 크기 설정
 	        key = bService.searchSelectPage(params); // 검색된 결과를 key에 할당
@@ -172,37 +174,45 @@ public class BoardController {
 
 
 	@RequestMapping("/board/read.do")
-	public ModelAndView read(@ModelAttribute("BoardDto") BoardDto boardDto) {
-		System.out.println("/board/list에서 가져온 값 확인 " + boardDto);
-		ModelAndView mv = new ModelAndView();
-
-		if (boardDto.getTypeSeq() == null) {
-			boardDto.setTypeSeq(Integer.parseInt(this.typeSeq));
-		}
-		
-		//자유게시판 글 조회
-		BoardDto read = bService.read(boardDto);
-		System.out.println("dalsfkjaslkdjf:" + read);// BoardDto [boardSeq=12, typeSeq=2, memberId=jbw02003,
-															// memberNick=123, title=totam tempore at libero neq
-		
-		// 1. 첨부파일 읽기1 : 해당게시글(typeSeq, board_seq)의 모든첨부파일(다중이니까)
-				List<AttFileDto> attFiles = attFileService.readAttFiles(read); // boardSeq=10776, typeSeq=2
-				System.out.println("해당 게시물의 모든 첨부파일 : " + attFiles);
-		
-				// 조회수 +1
-				bService.updateHits(read);
-		
-		// 댓글 리스트 가져오기(댓글 구현부분)
-		////////////////////
-		////////////////////
-		
-		// 1. 첨부파일 읽기1
-		mv.addObject("attFiles", attFiles);
-		mv.addObject("read", read);
-		System.out.println("read값 출력 하기 :" + read);
-		mv.setViewName("/board/read");
-		return mv;
+	public ModelAndView read(BoardDto boardDto, @ModelAttribute("pagedto") pageDto pagedto) {
+	    System.out.println("/board/list에서 가져온 값 확인 " + boardDto);
+	    ModelAndView mv = new ModelAndView();
+	    System.out.println("pagedto의 값 확인하자 : " + pagedto);//pageDto [pageSize=10, pageNaviSize=10, offset=0, keyword=, option=, startNavi=null, totalPage=null, currentPage=1, endNavi=null, startPage=null]
+//	    currentPage의 값을 확인: + currentPage
+	    
+	    if (boardDto.getTypeSeq() == null) {
+	        boardDto.setTypeSeq(Integer.parseInt(this.typeSeq));
+	    }
+	    
+	 // currentPage 필드를 직접 설정합니다.
+	    if (pagedto.getCurrentPage() != null) {
+	    	pagedto.setCurrentPage(pagedto.getCurrentPage());
+	    }
+	    System.out.println("currentPage의 값을 확인 : + currentPage");//currentPage의 값을 확인: + currentPage
+	    
+	    // 자유게시판 글 조회
+	    BoardDto read = bService.read(boardDto);
+	    System.out.println("dalsfkjaslkdjf:" + read);
+	    
+	    // 첨부파일 읽기
+	    List<AttFileDto> attFiles = attFileService.readAttFiles(read);
+	    System.out.println("해당 게시물의 모든 첨부파일 : " + attFiles);
+	    
+	    // 조회수 +1
+	    bService.updateHits(read);
+	    
+	    // 뷰에 전달할 데이터 설정
+	    mv.addObject("attFiles", attFiles);
+	    mv.addObject("read", read);
+	    System.out.println("read값 출력 하기 :" + read);
+	    
+	    // 뷰 이름 설정
+	    mv.setViewName("/board/read");
+	    
+	    return mv;
 	}
+
+
 
 	@RequestMapping("/board/goToUpdate.do")
 	public ModelAndView goToUpdate(BoardDto boardDto, HttpSession session) {

@@ -181,6 +181,7 @@ public class BoardServiceImpl implements BoardService {
 	public List<BoardDto> searchSelectPage(HashMap<String, Object> params){
 		 // 키워드 값을 추출
 	    String keyword = (String) params.get("keyword");
+	    System.out.println("params값 확인 합시다@@ : " + params);//{startPage=0, typeSeq=2, pageSize=10, keyword=미미}
 	    
 	    // 검색 쿼리 실행
 	    return bDao.searchSelectPage(params);
