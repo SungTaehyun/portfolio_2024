@@ -1,5 +1,6 @@
 package com.lhs.dto;
 
+
 public class BoardDto {
 
     Integer boardSeq; // 번호

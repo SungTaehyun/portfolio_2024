@@ -23,7 +23,7 @@
 						$('#btnDelete').on('click', function() {
 						    if (confirm("삭제하시겠습니까?")) {
 						        console.log('read.boardSeq 값 출력:', '${read.boardSeq}');
-						        customAjax('<c:url value="/board/delete.do"/>' + '?boardSeq=' + '${read.boardSeq}', 
+						        customAjax('<c:url value="/board/${read.boardSeq}/delete.do"/>', 
 						        		"/board/list.do" + '?currentPage=' + '${pagedto.currentPage}' + '&pageSize=' + '${pagedto.pageSize}');
 						    }
 						});
@@ -36,7 +36,7 @@
 		$.ajax({
 			url : url,
 			data : formData,
-			type : 'POST',
+			type : 'DELETE',
 			dataType : "text",
 			processData : false,
 			contentType : false,
@@ -49,7 +49,7 @@
 				alert(data.msg);
 				var boardSeq = data.boardSeq;
 
-				movePage(responseUrl);
+				//movePage(responseUrl);
 
 			},
 			error : function(XMLHttpRequest, textStatus, errorThrown) {
@@ -116,9 +116,9 @@
 											</c:when>
 
 								<c:otherwise>
-									<a
-										href="<c:url value='/board/download.do?fileIdx=${file.fileIdx}'/>">
-										${file.fileName} ( ${file.fileSize } bytes) </a>
+									<a href="<c:url value='/board/download.do?fileIdx=${file.fileIdx}'/>">
+										${file.fileName} ( ${file.fileSize } bytes)
+										</a>
 									<br />
 								</c:otherwise>
 							</c:choose></td>
