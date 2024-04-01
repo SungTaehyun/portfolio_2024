@@ -21,15 +21,15 @@ import com.lhs.util.FileUtil;
 
 import lombok.RequiredArgsConstructor;
 
-	@Controller
-	@RequiredArgsConstructor
-	public class BoardController {
+@Controller
+@RequiredArgsConstructor
+public class BoardController {
 
-		private final BoardService bService;
-		private final AttFileService attFileService;
-		private final FileUtil fileUtil;
+	private final BoardService bService;
+	private final AttFileService attFileService;
+	private final FileUtil fileUtil;
 
-		private String typeSeq = "2";
+	private String typeSeq = "2";
 
 	@RequestMapping("/board/list.do")
 	public ModelAndView list(BoardDto boardDto, pageDto pagedto, @RequestParam(required = false) String keyword) {
@@ -119,7 +119,6 @@ import lombok.RequiredArgsConstructor;
 		return mv;
 	}
 
-	
 
 	@RequestMapping("/board/read.do")
 	public ModelAndView read(BoardDto boardDto, @ModelAttribute("pagedto") pageDto pagedto) {

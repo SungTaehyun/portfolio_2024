@@ -5,7 +5,6 @@ import java.util.HashMap;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -22,15 +21,17 @@ import com.lhs.dto.BoardDto;
 import com.lhs.service.AttFileService;
 import com.lhs.service.BoardService;
 import com.lhs.util.FileUtil;
+
+import lombok.RequiredArgsConstructor;
+
 //excetionHandler 사용
+@RequiredArgsConstructor
 @RestController
 public class BoardRestController {
-	@Autowired
-	BoardService bService;
-	@Autowired
-	AttFileService attFileService;
-	@Autowired
-	FileUtil fileUtil;
+
+	private final BoardService bService;
+	private final AttFileService attFileService;
+	private final FileUtil fileUtil;
 
 	private String typeSeq = "2";
 	
