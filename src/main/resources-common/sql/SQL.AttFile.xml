@@ -41,6 +41,8 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	</select>
 
 	<delete id="deleteAttFile" parameterType="HashMap">
+	DELETE from S_SungTaehyun.board_attach
+		WHERE file_idx=#{fileIdx};
 	</delete>
 
 	<delete id="deleteAttFileByBoard" parameterType="HashMap">
