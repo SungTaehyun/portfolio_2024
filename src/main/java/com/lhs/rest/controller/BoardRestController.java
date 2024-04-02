@@ -5,10 +5,7 @@ import java.util.HashMap;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-<<<<<<< HEAD
-import org.springframework.beans.factory.annotation.Autowired;
-=======
->>>>>>> 1-remove-this-field-injection-and-use-constructor-injection-instead스프링-필드-주입에서-생성자-주입으로-변경하기
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -25,29 +22,18 @@ import com.lhs.dto.BoardDto;
 import com.lhs.service.AttFileService;
 import com.lhs.service.BoardService;
 import com.lhs.util.FileUtil;
-<<<<<<< HEAD
-//excetionHandler 사용
-@RestController
-public class BoardRestController {
-	@Autowired
-	BoardService bService;
-	@Autowired
-	AttFileService attFileService;
-	@Autowired
-	FileUtil fileUtil;
-=======
 
 import lombok.RequiredArgsConstructor;
 
 //excetionHandler 사용
-@RequiredArgsConstructor
 @RestController
+@Controller
+@RequiredArgsConstructor
 public class BoardRestController {
 
 	private final BoardService bService;
 	private final AttFileService attFileService;
 	private final FileUtil fileUtil;
->>>>>>> 1-remove-this-field-injection-and-use-constructor-injection-instead스프링-필드-주입에서-생성자-주입으로-변경하기
 
 	private String typeSeq = "2";
 	
@@ -177,8 +163,4 @@ public class BoardRestController {
 		 System.out.println(boarddto);
 		return map;
 	}
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 1-remove-this-field-injection-and-use-constructor-injection-instead스프링-필드-주입에서-생성자-주입으로-변경하기
